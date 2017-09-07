@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>设计天地</title>
+</head>
+
+<link rel="icon" href="../../favicon.ico">
+
+
+<title>班级说说</title>
+<style type="text/css">
+    .fileUpload {
+        position: relative;
+        overflow: hidden;
+        margin: 10px;
+    }
+
+    .fileUpload input.upload {	position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+</style>
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/underscore.js"></script>
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="/css/jumbotron.css" rel="stylesheet">
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-menu-left"></span></a>
+            <a class="navbar-brand" href="#">班级说说</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <%if(!login){%>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/login">登录</a></li>
+
+            </ul>
+            <%} else{%>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">欢迎您，<%=username%></a></li>
+                <li><a href="/dodiy">DIY</a></li>
+                <li><a href="/gouwucheindex">我的收藏</a></li>
+                <li><a href="/gerenzhongxin">个人中心</a></li>
+                <li><a href="/tuichu">退出登录</a></li>
+            </ul>
+            <%}%>
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+<br/>
+<div align="center">
+<form method="post" action="/doupavatar" enctype="multipart/form-data" >
+    <input id="uploadFile" placeholder="Choose File" disabled="disabled" />
+    <div class="fileUpload btn btn-primary">
+            <span id="filesympo">选择文件</span>&nbsp;
+
+    <input type="file" name="pic" class="upload"id="file" accept="image/*"/>
+
+    </div>
+    <div id="filesympo1" style="display: none" class="fileUpload btn btn-primary">
+    <span   onclick="submit(this)" >保存设计</span>
+    <label for="img_input"></label>
+    </div>
+    <!--<input type="submit" id="submit" value="提交" />--> <div class="form-group">
+
+        <div align="center"  style="width: 350px;margin-top:20px">
+
+         <div>
+             <div class="tishi" style="color:red;float: left" id="tishi1"></div>
+        <input  class="form-control" id="exampleInput1" placeholder="diy名字">
+         </div>
+        <div>
+        <input style="margin-top:5px" class="form-control" id="exampleInput2" placeholder="备注"><div  class="tishi" style="color:red" id="tishi2"></div>
+        </div>
+        </div>
+    </div>
+</form>
+    <!--<script>-->
+    <!--document.getElementById("uploadBtn").onchange = function () {-->
+    <!--document.getElementById("uploadFile").value = this.value;-->
+    <!--};-->
+    <!--</script>-->
+</div>
+<br/>
+<div align="center" class="box">
+
+</div>
+<div style="margin-top:50px;display: none;" align="center" class="alert alert-success"id="chenggong" role="alert">保存成功</div>
+<div style="margin-top:50px;display: none;" align="center" class="alert alert-danger"id="chongfutishi" role="alert">同样的diy请勿重复保存</div>
+<script>
+    var limitrepeatsubmit=0;
+    var file;
+    $("input").focus(function(){
+        document.querySelector("#tishi1").innerHTML="";
+    })
+    $("#file").on("change", function(e){
+
+       file = e.target.files[0]; //获取图片资源
+
+        // 只选择图片文件
+        if (!file.type.match('image.*')) {
+            return false;
+        }
+
+        var reader = new FileReader();
+
+        reader.readAsDataURL(file); // 读取文件
+
+        // 渲染文件
+        reader.onload = function(arg) {
+
+            var img = '<img id="target"  align="center" style="width: 200px;height: 200px"  src="' + arg.target.result + '" alt=""/>';
+            $(".box").empty().append(img);
+            $("#filesympo1").show();
+            limitrepeatsubmit=0;
+            document.querySelector("#filesympo").innerHTML="更换图片";
+
+        }
+    });
+
+
+   function submit(a){
+        if(limitrepeatsubmit==0){
+
+            alert("haha");
+       if($("#exampleInput1").val()=="")
+       {
+
+           document.querySelector("#tishi1").innerHTML="diy名字不能为空";
+            return;
+       }
+       if($("#exampleInput1").val().length>15)
+       {
+
+           document.querySelector("#tishi1").innerHTML="不能超过15个字符";
+           return;
+       }
+       if($("#exampleInput2").val().length>20)
+       {
+
+           document.querySelector("#tishi1").innerHTML="不能超过20个字符";
+           return;
+       }
+       var form_data = new FormData();
+//       var file_data = $("#img_input").prop("files")[0];
+       if (!file.type.match('image.*')) {
+           return false;
+       }
+       var file_data = file;
+      var  diyname=$("#exampleInput1").val();
+// 把上传的数据放入form_data
+       form_data.append("diyname",diyname);
+       form_data.append("beizhu",$("#exampleInput2").val() );
+       form_data.append("img", file_data);
+
+       $.ajax({
+           type: "POST", // 上传文件要用POST
+           url: "/adddiy",
+           dataType : "json",
+           crossDomain: true, // 如果用到跨域，需要后台开启CORS
+           processData: false,  // 注意：不要 process data
+           contentType: false,  // 注意：不设置 contentType
+           data: form_data
+       }).success(function(msg) {
+           if(msg=="1")
+               $("#chenggong").html("保存成功");
+           $("#chenggong").fadeIn();
+           setTimeout('$("#chenggong").fadeOut()',3000);
+       }).fail(function(msg) {
+           console.log(msg);
+       });
+            limitrepeatsubmit=1;
+   }
+       else{
+            $("#chongfutishi").fadeIn();
+            setTimeout('$("#chongfutishi").fadeOut()',3000);
+        }
+   }
+</script>
+</body>
+</html>

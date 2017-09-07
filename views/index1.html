@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="icon" href="../../favicon.ico">-->
+
+    <title>班级说说</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/jumbotron.css" rel="stylesheet">
+    <style type="text/css">
+        /*body{*/
+        /*margin-top: 120px;*/
+        /*}*/
+
+        #quanbushuoshuo {
+            height: 500px;
+        }
+        .grid{
+            margin-top: 20px;
+            /*border-top: 1px solid #808080;*/
+
+            height:236px;
+
+        }
+        .neirong{
+
+
+            height:100px;
+
+        }
+
+        textarea{
+            border-top: 1px solid #808080;border-right: 1px solid #D4D0C8;border-bottom: 1px solid #D4D0C8;border-left: 1px solid #808080;
+        }
+        #cuowukuang{
+            display: none;
+        }
+        #cuowukuang1{
+            display: none;
+        }
+        #cuowukuang2{
+            display: none;
+        }
+        #cuowukuang3{
+            display: none;
+        }
+        #cuowukuang4{
+            display: none;
+        }
+        #cuowukuang5{
+            display: none;
+        }
+        #cuowukuang6{
+            display: none;
+        }
+        #chenggong{
+            display: none;
+        }
+        #chenggong1{
+            display: none;
+        }
+    </style>
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/underscore.js"></script>
+    <!--<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>-->
+
+</head>
+
+<body>
+
+<div style="display: none" id="panduan"></div>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">班级说说</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" id="xingming"></a></li>
+                <li><a href="/views/dodiy.html">开始DIY</a></li>
+                <li><a href="/views/gouwucheindex.html">我的收藏</a></li>
+                <li><a href="/views/personinfo.html">个人中心</a></li>
+                <li><a href="/tuichu">退出登录</a></li>
+            </ul>
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+    <div class="container" height="1600">
+        <div class="row">
+
+            <div class="col-lg-3">
+
+
+
+                <h1><a href="/views/upavatar.html"><img id="touxiang" style="border-radius: 70%" src="" width="156" height="169" alt=" " class="img-thumbnail"></a></h1>
+
+            </div>
+            <div class="col-lg-6" >
+                <h4>我想说：</h4>
+                <form>
+                    <textarea  id="shuoshuo" cols="90" rows="6" placeholder="请把字数限制在200字以内！每小时限发3条"></textarea>
+                    <div align="right" ><a class="btn btn-primary btn-lg"  id="fabiao" role="button" >发表</a></div>
+                </form>
+                <div class="alert alert-danger" id="cuowukuang3"role="alert">字数超过限制！</div>
+                <div class="alert alert-danger" id="cuowukuang4"role="alert">不能为空！</div>
+                <div class="alert alert-success"id="chenggong1" role="alert">发表成功</div>
+                <div class="alert alert-danger" id="cuowukuang5"role="alert">发表失败，请联系管理员！</div>
+                <div class="alert alert-danger" id="cuowukuang6"role="alert"></div>
+            </div>
+            <div class="col-lg-2" >
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        您当前所在话题区为：
+                        <span class="caret" ></span>
+                        <span id="spselect">日常心情</span>
+
+
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a onclick="huati(this)" href="javascript:void(0)" name="日常心情">日常心情</a></li>
+                        <li><a onclick="huati(this)" href="javascript:void(0)" name="体育运动">体育运动</a></li>
+                        <li><a onclick="huati(this)" href="javascript:void(0)"name="爱情风铃">爱情风铃</a></li>
+                        <li><a onclick="huati(this)" href="javascript:void(0)"name="学习圣地">学习圣地</a></li>
+                        <li><a onclick="huati(this)" href="javascript:void(0)" name="文艺广场">文艺广场</a></li>
+                        <li><a onclick="huati(this)" href="javascript:void(0)"name="游戏天地">游戏天地</a></li>
+                        <li><a onclick="huati(this)" href="javascript:void(0)"name="旅游世界">旅游世界</a></li>
+                        <li><a onclick="huati(this)" href="javascript:void(0)"name="事业工作">事业工作</a></li>
+                        <!--<li role="separator" class="divider"></li>-->
+
+                    </ul>
+                </div>
+            </div>
+
+
+        </div>
+
+        </div>
+
+    </div>
+
+<div class="container">
+    <!-- 分页条-->
+    <nav>
+        <ul class="pagination">
+
+        </ul>
+    </nav>
+
+    <script >
+//        $.get("/getinfo",function(result){
+//               document.querySelector("#touxiang").src="/avatar/"+result.avatar;
+//            document.querySelector("#xingming").innerHTML="欢迎您，"+result.username;
+//            document.querySelector("#panduan").innerHTML=result.username;
+//        })
+//        //分页条的Ajax
+//        $.get("/getshuoshuoamount?huati="+document.querySelector("#spselect").innerHTML, function (result1) {
+////            alert(result);
+//            if(result1=="-1"){
+//                return;
+//            }
+//            var amount = parseInt(result1);
+//            //总页数
+//            pageamount = Math.ceil(amount / 10);
+////            alert(amount);
+//            for (var i = 1; i <=pageamount; i++) {
+//                $(".pagination").append("<li><a href='javascript:void(0);'>" + i + "</a></li>");
+//            }
+//            $(".pagination li:first").addClass("active");
+//            //监听
+//            $(".pagination li").click(function () {
+//                var page = parseInt($(this).index());
+////                alert(page);
+//                $(this).addClass("active").siblings().removeClass("active");
+//                getpage(page);
+////                $(this).addClass("active").siblings().removeClass("active");
+//            });
+//        })
+    </script>
+
+    <!-- Example row of columns -->
+    <div class="row" id="quanbushuoshuo" >
+
+    </div>
+    <!--<button id="submit1" >haha</button>-->
+    <hr>
+
+    <footer>
+        <p>&copy; 2016 Company, Inc.</p>
+    </footer>
+</div> <!-- /container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+</body>
+<script type="text/template"id="moban">
+    <div class="col-md-6 grid">
+        <div class="thumbnail">
+            <h2 id="yhm"><img style="border-radius: 70%" width="46" src="{{=avatar}}" alt=""/>{{=username}}说</h2>
+            <div class="caption">
+                <p class="neirong">{{=content}}</p>
+
+                <p>{{=date}}</p>
+
+
+
+                <!--<p><a href="/shanchushuoshuo?id={{=_id}}">删除</a></p>-->
+                <!--glyphicon glyphicon-minus-sign-->
+
+
+                <!--<button id="dianzan" name={{=_id}}><span class="glyphicon glyphicon-thumbs-up"  aria-hidden="true"></span></button>-->
+                <!--<div id="h" class="hidden">{{=_id}}</div>-->
+                <button  onclick="dianzan(this.name,this)" name="{{=_id}}" class="btn btn-default btn-xs">
+                    <span style="{{=yanse}}" id="span1"  class="glyphicon glyphicon-thumbs-up" aria-hidden="true" >{{=zan.length-2}}</span>
+                </button>
+                <button type="button" class="btn btn-default btn-xs">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+                </button>
+
+                <a onclick="getuserindex(this)" href="javascript:void(0)" name='{{=username}}'>
+                    <button type="button" class="btn btn-default btn-xs">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    </button>
+                </a>
+           <span {{=flag}}>
+          <a   href="javascript:void(0)" onclick="shanchushuoshuo(this)" name="{{=_id}}">
+              <button   type="button" class="btn btn-default btn-xs">
+                  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              </button>
+          </a>
+               <!--<div style="display: none">{{=_id}}</div>-->
+            </span>
+            </div>
+        </div>
+        <!--<p><a class="btn btn-default btn-sm" href="#" role="button">查看个人</a></p>-->
+    </div>
+
+</script>
+
+<script type="text/javascript">
+    //    var $quanbushuoshuo = $("#quanbushuoshuo");
+    var cookie=localStorage.getItem("cookie");
+    function huati(a)
+    {
+        document.querySelector("#spselect").innerHTML= a.name;
+        getpage(0);
+    }
+    function getuserindex(a)
+    {
+        window.location.href="/views/userindex.html?username="+a.name.toString();
+    }
+    function getpage(page) {
+//          var $quanbushuoshuo = $("#quanbushuoshuo");
+        $("#quanbushuoshuo").html("");
+//          var compiled = _.template($("#moban").html());
+
+        $.ajax({
+                    "url": "/getallshuoshuo?page=" + page+"&huati="+document.querySelector("#spselect").innerHTML,
+                    "type": "get",
+            headers: {
+                "cookie":cookie
+            },
+                    "success": function (result2) {
+//                          alert(result.length);
+                        if(result2=="-1"){
+                            return;
+                        }
+                        iterator(0);
+
+                        function iterator(i) {
+                            if (i == result2.length) {
+
+                                return;
+                            }
+
+                            $.get("/getuserinfo?username=" + result2[i].username, function (result3) {
+                                result2[i].avatar = result3.avatar;
+                                var user=document.querySelector("#panduan").innerHTML;
+                                if(result2[i].username!=user) {
+                                    result2[i].flag='hidden';
+                                }else{
+                                    result2[i].flag='';
+                                }
+                                //组装模板
+                                var htmlstring = compiled(result2[i]);
+
+                                $("#quanbushuoshuo").append($(htmlstring));
+                                iterator(i + 1);
+                            });
+                        }
+                    }
+                }
+        );
+
+    }
+    function shanchushuoshuo(a){
+        $.get("/shanchushuoshuo?id="+ a.name,function(result){
+            if(result=="1")
+            {
+
+                getpage(parseInt($(".pagination li.active")));
+            }
+        });
+    }
+    var compiled = _.template($("#moban").html());
+    $.get("/getinfo",function(result){
+//        alert(result);
+        var dataObj=eval("("+result+")");
+//        alert(dataObj.avatar);
+        document.querySelector("#touxiang").src=dataObj.avatar;
+//        alert(document.querySelector("#touxiang").src);
+        document.querySelector("#xingming").innerHTML="欢迎您，"+dataObj.username;
+        document.querySelector("#panduan").innerHTML=dataObj.username;
+
+    //分页条的Ajax
+    $.get("/getshuoshuoamount?huati="+document.querySelector("#spselect").innerHTML, function (result1) {
+//            alert(result);
+        if(result1=="-1"){
+            return;
+        }
+        var amount = parseInt(result1);
+        //总页数
+        pageamount = Math.ceil(amount / 10);
+//            alert(amount);
+        for (var i = 1; i <=pageamount; i++) {
+            $(".pagination").append("<li><a href='javascript:void(0);'>" + i + "</a></li>");
+        }
+        $(".pagination li:first").addClass("active");
+        //监听
+        $(".pagination li").click(function () {
+            var page = parseInt($(this).index());
+//                alert(page);
+            $(this).addClass("active").siblings().removeClass("active");
+            getpage(page);
+//                $(this).addClass("active").siblings().removeClass("active");
+        });
+    })
+    getpage(0);
+
+    })
+
+
+
+    function changeyzm(a){
+        a.src="/scyanzhengma";
+    }
+    function dianzan(a,b){
+        $.get("/dianzan?id="+a,function(result){
+//            alert(b.childNodes[0].innerHTML);
+//                 alert(result);
+            b.querySelector("#span1").innerHTML=result.dianzanshu-2;
+//            b.querySelector("#span1").css("color","orange");
+            if(result.xinzeng=="1"){
+                $(b.querySelector("#span1")).css("color","orange");
+//            getpage(0);
+            }
+            else{
+                $(b.querySelector("#span1")).css("color","");
+            }
+        });
+
+    };
+    $("#fabiao").click(function(){
+        if( $("#shuoshuo").val().length>200){
+            $("#cuowukuang3").fadeIn();
+        }
+        else if($("#shuoshuo").val().length==0){
+            $("#cuowukuang4").fadeIn();
+        }
+        else {
+            $.post("/postshuoshuo", {"content": $("#shuoshuo").val(),"huati":document.querySelector("#spselect").innerHTML}, function (result) {
+                if(result=="1"){
+
+                    $("#chenggong1").fadeIn();
+                    setTimeout("$('#chenggong1').fadeOut()",3000);
+//                 var htmlstring = compiled({"username":$("#yhm").});
+//
+//                 $("#quanbushuoshuo").append($(htmlstring));
+                    getpage(0);
+
+                    $(".pagination li:first").addClass("active");
+                    $(".pagination li:first").addClass("active").siblings().removeClass("active");
+                }
+                else if(result=="-1"||result=="-2"||result=="-3"){
+                    $("#cuowukuang5").fadeIn();
+                    setTimeout("$('#cuowukuang5').fadeOut()",3000);
+                }
+                else {
+                    document.querySelector("#cuowukuang6").innerHTML="发表失败，一个小时限发3条！请"+result+"分钟后再试！";
+                    $("#cuowukuang6").fadeIn();
+                    setTimeout("$('#cuowukuang6').fadeOut()",3000);
+                }
+            });
+
+        } });
+    $("input").focus(function(){
+        $("#cuowukuang").fadeOut();
+        $("#chenggong").fadeOut();
+        $("#cuowukuang1").fadeOut();
+        $("#cuowukuang2").fadeOut();
+        $("#cuowukuang3").fadeOut();
+        $("#cuowukuang4").fadeOut();
+        $("#cuowukuang5").fadeOut();
+        $("#chenggong1").fadeOut();
+    });
+    $("#shuoshuo").focus(function(){
+        $("#cuowukuang").fadeOut();
+        $("#chenggong").fadeOut();
+        $("#cuowukuang1").fadeOut();
+        $("#cuowukuang2").fadeOut();
+        $("#cuowukuang3").fadeOut();
+        $("#cuowukuang4").fadeOut();
+        $("#cuowukuang5").fadeOut();
+
+    });
+    $("#submit").click(function(){
+
+        if($("#username").val()==""){
+            $("#cuowukuang1").fadeIn();
+        }
+        else if($("#password").val()==""){
+            $("#cuowukuang2").fadeIn();
+        }
+        else {
+            $.post("/dologin", {
+                "username": $("#username").val(),
+                "password": $("#password").val(),
+                "yanzhengma":$("#yanzhengma").val().toString()
+            }, function (result) {
+                //alert(result);
+                if (result == "-1") {
+
+                    document.querySelector("#yanzhengmaimg").src="/scyanzhengma";
+                    $("#cuowukuang").fadeIn();
+                    $("#cuowukuang").html("用户名不存在");
+
+
+                }
+                if (result == "-3") {
+                    $("#cuowukuang").fadeIn();
+                    $("#cuowukuang").html("服务器错误");
+                    document.querySelector("#yanzhengmaimg").src="/scyanzhengma";
+                }
+                if (result == "-2") {
+                    document.querySelector("#yanzhengmaimg").src="/scyanzhengma";
+                    $("#cuowukuang").fadeIn();
+
+                    $("#cuowukuang").html("密码错误");
+
+                }
+                if (result == "-4") {
+                    $("#cuowukuang").fadeIn();
+                    $("#cuowukuang").html("验证码错误");
+
+
+                    document.querySelector("#yanzhengmaimg").src="/scyanzhengma";
+
+
+                }
+                if (result == "1") {
+
+
+                    $("#chenggong").fadeIn();
+                    $("#chenggong").html("登录成功");
+
+                    setTimeout("window.location.href='/'", 1000);
+
+                }
+
+
+            });
+        } });
+
+
+</script>
+</html>

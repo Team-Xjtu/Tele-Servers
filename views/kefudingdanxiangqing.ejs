@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/underscore.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="/css/jumbotron.css" rel="stylesheet">
+<body>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar-header">
+        　<!-- .navbar-toggle样式用于toggle收缩的内容，即nav-collapse collapse样式所在元素 -->
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#demo">
+            <span class="sr-only">Toggle Navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <!-- 确保无论是宽屏还是窄屏，navbar-brand都显示 -->
+        <!--<a href="##" class="navbar-brand">订单</a>-->
+    </div>
+<div class="collapse navbar-collapse navbar-responsive-collapse" id="demo">
+    <ul class="nav navbar-nav">
+        <li role="presentation" ><a href="/kefuxiugaionedingdanindex?dingdanbiaoshi=<%=dingdan.dingdanbiaoshi%>">修改订单信息<span class="badge"></span></a></li>
+    </ul>
+</div>
+</div>
+<div style="margin-bottom: 10px;margin-top: 2%" >
+    <%for(var j=0;j<dingdan.dingdanshangpins.length;j++){%>
+    <div >
+        <table >
+            <tr>
+                <td style="width:120px;" > <img style="width:100px;height: 100px;" src="/diyimg/<%=dingdan.dingdanowner%>/<%=dingdan.dingdanshangpins[j].img%>"></td>
+                <div id="imgbiaoshi"style="display:none;"><%=dingdan.dingdanshangpins[j].img%></div>
+                <td style="width:74%;" align="left">  <span >
+                                    <h3><%=dingdan.dingdanshangpins[j].diyname%></h3>
+                                    <p><%=dingdan.dingdanshangpins[j].beizhu%></p>
+                                    <p><a href="javascript:void(0)"style="color: red">&yen;<%=dingdan.dingdanshangpins[j].danjia%></a> </p>
+                                  </span>
+                </td>
+                <td  ><span style="color:red;" >×&nbsp;<%=dingdan.dingdanshangpins[j].shuliang%></span></td>
+                <div style="display:none;" id="shuliang"><%=dingdan.dingdanshangpins[j].shuliang%></div>
+            </tr>
+
+        </table>
+    </div>
+    <%}%>
+   
+    <div class="list-group" style="margin-top: 5%">
+            <a class="list-group-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;订&nbsp;单&nbsp;总&nbsp;价&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;<span id="zongjia" style="color:red"><%=dingdan.dingdanzongjia%></span>元</a>
+            <a class="list-group-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;订&nbsp;单&nbsp;号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;|&nbsp;&nbsp;<%=dingdan.dingdanbiaoshi%></a>
+            <a class="list-group-item">订&nbsp;单&nbsp;创&nbsp;建&nbsp;时&nbsp;间&nbsp;|&nbsp;&nbsp;<%=dingdan.chuangjiantime%></a>
+            <a class="list-group-item">订&nbsp;单&nbsp;所&nbsp;属&nbsp;用&nbsp;户&nbsp;|&nbsp;&nbsp;<%=dingdan.dingdanowner%></a>
+            <a class="list-group-item">订&nbsp;单&nbsp;目&nbsp;前&nbsp;状&nbsp;态&nbsp;|&nbsp;&nbsp;<%=dingdan.dingdanzhuangtai%></a>
+            <a class="list-group-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;收&nbsp;货&nbsp;人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;|&nbsp;&nbsp;<%=dingdan.dingdandizhi.name%></a>
+            <a class="list-group-item">&nbsp;&nbsp;&nbsp;&thinsp;收&nbsp;货&nbsp;人&nbsp;电&nbsp;话&nbsp;&nbsp;|&nbsp;&nbsp;<%=dingdan.dingdandizhi.dianhua%></a>
+            <a class="list-group-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;订&nbsp;单&nbsp;地&nbsp;址&nbsp;&nbsp;&nbsp;&thinsp;|&nbsp;&nbsp;<%=dingdan.dingdandizhi.dizhi%></a>
+            <a class="list-group-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;发&nbsp;货&nbsp;时&nbsp;间&nbsp;&nbsp;&nbsp;&thinsp;|&nbsp;&nbsp;<%=dingdan.fahuoshijian%></a>
+            <a class="list-group-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;物&nbsp;流&nbsp;单&nbsp;号&nbsp;&nbsp;&nbsp;&thinsp;|&nbsp;&nbsp;<%=dingdan.wuliuhaoma%></a>
+            <a class="list-group-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;物&nbsp;流&nbsp;信&nbsp;息&nbsp;&nbsp;&nbsp;&thinsp;|&nbsp;&nbsp;<%=dingdan.wuliuxinxi%></a>
+            <a class="list-group-item">确&nbsp;认&nbsp;收&nbsp;货&nbsp;时&nbsp;间&nbsp;&thinsp;|&nbsp;&nbsp;<%=dingdan.shouhuoshijian%></a>
+    </div>
+    <div class="panel panel-default">
+        <h2>订单历史修改记录:</h2>
+        <div class="panel-body">
+            <%if(dingdan.dingdanxinxixiugaijilu.length==1){%>
+                暂无修改记录
+            <%}else{%>
+    <%for(var i=dingdan.dingdanxinxixiugaijilu.length-1;i>0;i--){%>
+            <span class="glyphicon glyphicon-tag" aria-hidden="true"><h4><%=dingdan.dingdanxinxixiugaijilu[i]%></h4></span>
+    <%}%>
+            <%}%>
+        </div>
+    </div>
+    </div>
+
+</body>
+
+</html>

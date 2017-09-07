@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/jumbotron.css" rel="stylesheet">
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/underscore.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-menu-left"></span></a>
+            <a class="navbar-brand" href="/">班级说说</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" id="xingming"></a></li>
+
+
+                <li><a href="/tuichu">退出登录</a></li>
+            </ul>
+
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+<h1 align="center"><a  href="/views/upavatar.html"><img  style=" border-radius:50%" id="touxiang" src="" width="156" height="169" alt=" " class="img-thumbnail"></a></h1>
+<br/>
+<br/>
+<br/>
+<div align="center" class="row" id="quanbushuoshuo" >
+    <a href="/views/wodedingdan.html"><button style="width:700px" type="button" class="btn btn-default  btn-lg" aria-label="Left Align">
+            <span style="margin-left:275px" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp;  <span >我的订单</span><span style="margin-left: 280px" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+    </button></a>
+    <a href="/views/dizhi.html"><button style="width:700px" type="button" class="btn btn-default btn-lg" aria-label="Left Align">
+            <span style="margin-left:275px" class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp;&nbsp;  <span >地址管理</span><span style="margin-left: 280px" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+        </button></a>
+    <a href="#"><button style="width:700px" type="button" class="btn btn-default btn-lg" aria-label="Left Align">
+            <span style="margin-left:275px" class="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;&nbsp;  <span >修改密码</span><span style="margin-left:280px" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+        </button></a>
+
+    <a href="/#"><button style="width:700px" type="button" class="btn btn-default btn-lg" aria-label="Left Align">
+            <span style="margin-left:275px" class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;  <span >个人信息</span><span style="margin-left:280px" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+        </button></a>
+</div>
+<script>
+$.get("/getinfo",function(result) {
+//        alert(result);
+    var dataObj = eval("(" + result + ")");
+//        alert(dataObj.avatar);
+    document.querySelector("#touxiang").src = dataObj.avatar;
+//        alert(document.querySelector("#touxiang").src);
+    document.querySelector("#xingming").innerHTML = "欢迎您，" + dataObj.username;
+
+})
+
+</script>
+</body>
+</html>

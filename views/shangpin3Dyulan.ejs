@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3D预览页面</title>
+</head>
+    <!-- head -->
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/underscore.js"></script>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/jumbotron.css" rel="stylesheet">
+    <!-- 3D -->
+    <script src="/threejs/three86.js"></script>
+    <script src="/threejs/OrbitControls.js"></script>
+    <script src="/threejs/initSence.js"></script>
+    <!--<script src="/threejs/addFont.js"></script>-->
+    <link href="/css/three.css" rel="stylesheet">
+<body>
+    <!--3Dyulan-->
+    <!--<br>-->
+    <!--<span>商品名称：<%=shangpin.shangpinname%></span>-->
+    <!--<br>-->
+    <!--<span>商品单价：<%=shangpin.shangpindanjia%></span>-->
+    <!--<br>-->
+    <!--<span>商品邮费：<%=shangpin.youfei%></span>-->
+    <!--<br>-->
+    <!--<span>商品号：<%=shangpin.shangpinhao%></span>-->
+    <!--<br>-->
+    <!--<span>商品添加时间：<%=shangpin.tianjiashijian%></span>-->
+    <!--<br>-->
+    <!--<span>商品所属类别：<%=shangpin.shangpintype%></span>-->
+    <!--<br>-->
+    <!--<span>商品描述信息：<%=shangpin.shangpinjieshao%></span>-->
+    <!--<br>-->
+    <!--<span>商品添加人：<%=shangpin.tianjiaren%></span>-->
+    <!--<br>-->
+    <!--<span>商品图片数：<%=shangpin.shangpinpiccount%></span>-->
+    <!--<br>-->
+    <!--<span>被购买次数：<%=shangpin.goumaicishu%></span>-->
+    <!--<br>-->
+    <!--<span>3D模型文件数：<%=shangpin.moxingwenjiancount%></span>-->
+    <!--<br>-->
+    <!--<h4>商品模型文件:</h4>-->
+    <!--<% for(var k =0;k<shangpin.path3darray.length;k++){ %>-->
+    <!--<br>-->
+    <!--<span>3D模型文件路径：<%=shangpin.moxingnamearray[k]%></span>-->
+    <!--<br>-->
+    <!--<span>3D模型文件路径：<%=shangpin.path3darray[k]%></span>-->
+    <!--<% } %>-->
+    <!--<br>-->
+    <!--<h4>商品图片:</h4>-->
+    <!--<% for(var k =0;k<shangpin.patharray.length;k++){ %>-->
+    <!--<span>图片路径：<%=shangpin.patharray[k]%></span>-->
+    <!--<br>-->
+    <!--<% } %>-->
+    <!--<br>-->
+    <!--<span>lujing3d：<%=shangpin.lujing3d%></span>-->
+    <div id="shangpinhao" style="display: none"><%=shangpin.shangpinhao%></div>
+    <input type="text" style="display: none" value="<%=shangpin.shangpinname%>" id="input1">
+    <input type="text" style="display: none" value="<%=shangpin.shangpindanjia%>" id="input2">
+    <input type="text" style="display: none" value="<%=shangpin.shangpinjieshao%>" id="input3">
+    <input type="text" style="display: none" value="<%=shangpin.youfei%>" id="input5">
+    <input type="text" style="display: none" value="<%=shangpin.tuijianji%>" id="input7">
+    <div id="shangpinpiccount" style="display: none"><%=shangpin.shangpinpiccount%></div>
+    <div>
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="navbar-header">
+                　<!-- .navbar-toggle样式用于toggle收缩的内容，即nav-collapse collapse样式所在元素 -->
+                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#demo">
+                    <span class="sr-only">Toggle Navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- 确保无论是宽屏还是窄屏，navbar-brand都显示 -->
+                <!--<a href="##" class="navbar-brand">订单</a>-->
+            </div>
+            <!-- 屏幕宽度小于768px时，div.navbar-responsive-collapse容器里的内容都会隐藏，显示icon-bar图标，当点击icon-bar图标时，再展开。屏幕大于768px时，默认显示。 -->
+            <div class="collapse navbar-collapse navbar-responsive-collapse" id="demo">
+                <!--<ul class="nav navbar-nav">-->
+                    <!--<li  role="presentation"  class="active"><a href="#">修改商品信息<span class="badge"></span></a></li>-->
+                <!--</ul>-->
+                <div  class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input style="width:350px" type="text" id="searchshangpinhao" class="form-control" placeholder="请输入商品号" />
+                    </div>
+                        <a onclick="/#" href="javascript:void(0)"><button   class="btn btn-default">查找商品</button></a>
+                </div>
+            </div>
+        </div>
+        <div class="mid">
+            <div class="mid-left">
+                <div id="content" class="content-model"></div>
+            </div>
+            <div class="mid-right">
+                <form style="margin: 15px">
+                    <h2>模型参数</h2>
+                    <br>
+                    <div class="input-group">
+                        模型材质数量共：<span id="materialCount"></span>
+                    </div>
+                    <div align="center" class="row" id="setBox">
+                    </div>
+                    <h2>已上传的文件</h2>
+                    <br>
+                    <div align="center" class="row">
+                        <%for(var i=0;i<shangpin.patharray.length;i++){%>
+                        <div id="<%=shangpin.patharray[i]%>" class="col-xs-2" style="margin-left: 40px">
+                            编号：<span><%=(i+1)%></span>
+                            <hr>
+                            <img align="center" style="width: 100px; height: 100px" src=" <%=shangpin.patharray[i]%>" alt=""/>
+                            <hr>
+                            <a onclick="shanchu(this)" name="<%=shangpin.patharray[i]%>" href="javascript:void(0)">删除</a>
+                        </div>
+                        <%}%>
+                    </div>
+                    <h2>正在上传的文件</h2>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon4">商品图片,请注意上传顺序</span>
+                        <input type="file" name="pic" class="upload"  class="form-control" id="file" accept="image/*"/>
+                    </div>
+                    <br>
+                    <div align="center" class="row" id="box">
+
+                    </div>
+                    <br>
+                </form>
+                <div align="center" style="margin-top: 15px ">
+                    <button type="button"  style="width:150px" onclick="submit1()" class="btn btn-primary">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        //3D预览
+        var modelPath = "..<%=shangpin.lujing3d%>";
+        var photoPath = [];
+        <% for(var k = 0; k<shangpin.patharray.length; k++){ %>
+            photoPath.push("..<%=shangpin.patharray[k]%>");
+        <% } %>
+
+        //模型参数
+        createThree(modelPath + "model.js", "content", photoPath);
+
+        //修改图片
+        var beforepicamount = parseInt(document.querySelector("#shangpinpiccount").innerHTML);
+        var file;
+        var limitrepeatsubmit = 0;
+        var limitrepeatsubmit1 = 0;
+        var pics = 0;
+        var filepic = [];
+        var file3d = [];
+        var pic3ds = 0;
+        var i = 0;
+
+        function shanchu(a) {
+            if(a.name.indexOf("/shangpin/2") !== -1) {
+                $.get("/scshangpinpic?shangpinpicpath="+ a.name+"&shangpinhao=" + document.querySelector("#shangpinhao").innerHTML, function(result){
+                    if(result == "1") {
+                        beforepicamount = beforepicamount-1;
+                        var b = $(a).parent();
+                        b.remove();
+                    }
+                    else if(result == "-1") {
+                        alert("删除失败");
+                    }
+                })
+            } else {
+                var b = parseInt(a.name);
+                delete filepic[b];
+                pics--;
+                var c = $(a).parent();
+                c.remove();
+            }
+        }
+
+        $("#file").on("change", function(e){
+            if(pics < 6-beforepicamount) {
+                //获取图片资源
+                file = e.target.files[0];
+                // 只选择图片文件
+                if (!file.type.match('image.*')) {
+                    return false;
+                }
+                filepic.push(file);
+                var reader = new FileReader();
+                // 读取文件
+                reader.readAsDataURL(file);
+                // 渲染文件
+                reader.onload = function (arg) {
+                    var a = i;
+                    var img = ' ' +
+                        '<div class="col-xs-2" style="margin-left: 40px">' +
+                        '<img align="center" style="width: 100px;height: 100px" src="' + arg.target.result + '" alt="' + arg.target.result + '"/>' +
+                        '<hr>' +
+                        '<a onclick="shanchu(this)" name = ' + a + ' href="javascript:void(0)">删除</a>' +
+                        '</div>';
+                    i++;
+                    $("#box").append(img);
+                    pics++;
+                    limitrepeatsubmit = 0;
+                }
+            }else{
+                alert("最多上传6张图片");
+                limitrepeatsubmit = 0;
+                return;
+            }
+        });
+
+        function submit1() {
+
+            if (limitrepeatsubmit == 0 && limitrepeatsubmit1 == 0) {
+                limitrepeatsubmit = 1;
+                var input1 = document.querySelector("#input1");
+                var input2 = document.querySelector("#input2");
+                var input3 = document.querySelector("#input3");
+                var input5 = document.querySelector("#input5");
+                var input7 = document.querySelector("#input7");
+                var id_array = new Array();
+                $('input[name="checkboxs"]:checked').each(function () {
+                    id_array.push($(this).val());//向数组中添加元素
+                });
+                var typestr = id_array.join(',');
+                var form_data = new FormData();
+                var shangpinname = input1.value;
+                var shangpindanjia = input2.value;
+                var shangpinjieshao = input3.value;
+                var youfei = input5.value;
+                var shangpinhao = document.querySelector("#shangpinhao").innerHTML;
+                var tuijianji = parseInt(input7.value);
+                form_data.append("shangpinname", shangpinname);
+                form_data.append("shangpindanjia", shangpindanjia);
+                form_data.append("shangpinjieshao", shangpinjieshao);
+                form_data.append("piccount", pics);
+                form_data.append("moxingwenjiancount", pic3ds);
+                form_data.append("youfei", youfei);
+                form_data.append("shangpinhao", shangpinhao);
+                form_data.append("tuijianji", tuijianji);
+                form_data.append("shangpintype", typestr);
+                for (var i = 0; i < filepic.length; i++) {
+                    if (filepic[i] !== undefined && filepic[i] !== "") {
+                        form_data.append("shangpinpics" + i, filepic[i]);
+                    }
+                }
+                for (var i = 0; i < file3d.length; i++) {
+                    if (file3d[i] !== undefined && file3d[i] !== "") {
+                        form_data.append("moxingwenjian" + i, file3d[i]);
+                    }
+                }
+
+                $.ajax({
+                    type: "POST", // 上传文件要用POST
+                    url: "/kefuxiugaioneshangpin",
+                    dataType: "json",
+                    crossDomain: true, // 如果用到跨域，需要后台开启CORS
+                    processData: false,  // 注意：不要 process data
+                    contentType: false,  // 注意：不设置 contentType
+                    data: form_data,
+                }).success(function (msg) {
+                    if (msg == "1") {
+
+                        window.location.href = "/shangpin3Dyulan?shangpinhao=" + document.querySelector("#shangpinhao").innerHTML;
+                        limitrepeatsubmit = 0;
+                    }
+                    else if (msg = "-1") {
+                        limitrepeatsubmit = 0;
+                        alert("保存失败");
+                    }
+                }).fail(function (msg) {
+                    limitrepeatsubmit = 0;
+                    console.log(msg);
+                });
+            }
+            else if (limitrepeatsubmit1 == 1) {
+                document.querySelector("#nameMessage1").innerHTML = "商品名已存在";
+                return;
+            }
+        }
+    </script>
+</body>
+</html>

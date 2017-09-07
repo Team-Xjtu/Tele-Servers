@@ -1,0 +1,465 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<meta name="viewport"content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<title>我的diy</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/css/reset.css">
+<link rel="stylesheet" href="/css/animate.css">
+<link rel="stylesheet" href="/css/jd_cart.css">
+    <link rel="icon" href="../../favicon.ico">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/jumbotron.css" rel="stylesheet">
+    <style type="text/css">
+        input[type=radio],input[type=checkbox]  {
+            display: inline-block;
+            vertical-align: middle;
+            width: 20px;
+            height: 20px;
+            margin-left: 5px;
+            -webkit-appearance: none;
+            background-color: transparent;
+            border: 0;
+            outline: 0 !important;
+            line-height: 20px;
+            color: #d8d8d8;
+        }
+
+
+
+        input[type=checkbox]:after  {
+            content: "";
+            display:block;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 14px;
+            font-size: 16px;
+            color: #fff;
+            border: 2px solid #ddd;
+            background-color: #fff;
+            box-sizing:border-box;
+        }
+        input[type=checkbox]:checked:after  {
+            border: 4px solid #ddd;
+            background-color: orange;
+        }
+
+
+    </style>
+</head>
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/underscore.js"></script>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-menu-left"></span></a>
+            <a class="navbar-brand" href="#">班级说说</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+
+                <li><a href="/views/dodiy.html">开始DIY</a></li>
+                <li><a href="/vies/gouwucheindex.html">我的收藏</a></li>
+                <li><a href="/views/personinfo.html">个人中心</a></li>
+                <li><a href="/tuichu">退出登录</a></li>
+            </ul>
+
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+
+<!--顶部通栏-->
+    <header class="jd_topBar">
+        <a href="#" class="icon_back"></a>
+        <h3>我的DIY</h3>
+        <a href="#"class="icon_menu"></a>
+    </header>
+
+
+<!--安全提示-->
+<div class="safety-tip">
+   <p class="fadeInDown animated">您正在安全购物环境中，请放心购物</p>
+</div>
+
+<!--店铺-->
+<form action="" method="get">
+ <div class="jd_shop">
+     <div class="jd_shop_tit">
+        <!--<div class="check_box">-->
+            <!--<a href="#" class="jd_check_box"></a>-->
+        <!--</div>-->
+         <span style="margin-left: 1.6%">
+         <input onclick="quanxuan(this)" type="checkbox"> 全选
+         </span>
+         <div class="f_right tip m_r10">
+             满两件享包邮
+         </div>
+        <div class="shop_info">
+
+                <!--<img src="images/buy-logo.png" alt="">-->
+                <!--<span>全选</span>-->
+
+            <!--<div class="f_right tip m_r10">-->
+                <!--满两件享包邮-->
+            <!--</div>-->
+
+        </div>
+    </div>
+ </div>
+     <div  id="quanbushuoshuo">
+         <script type="text/template"id="moban">
+         <div class="panel panel-default" style="height: 150px">
+
+
+             <!--<div class="shop_info clearfix" >-->
+                 <!--<div class="p_opition" >-->
+                     <!--<div class="checkbox">-->
+                         <!--<label>-->
+                             <!--<input type="checkbox" ><span> 默认地址</span>-->
+                         <!--</label>-->
+                     <!--</div>-->
+                     <!--</div>-->
+                 <!--<a href="#" class="img_box f_left"><img src="/diyimg/{{=username}}/{{=img}}" alt=""></a>-->
+                 <!--<div class="info_box">-->
+
+                     <!--<a class="p_name" href="#">{{=diyname}} </a>-->
+                     <!--<a class="p_name" href="#">备注:{{=beizhu}} </a>-->
+                     <!--<p class="p_price">&yen;{{=danjia}}</p>-->
+
+                     <!--<div class="p_opition" >-->
+                        <!--<div class="change_num f_left">-->
+                            <!--<span onclick="jianyi(this)"><a href="javascript:void(0)" ><span id="jianyi" >-</span></a></span>-->
+                            <!--<input type="tel" value="0"id="shuru">-->
+                            <!--<span onclick="jiayi(this)"><a href="javascript:void(0)" ><span id="jiayi" onclick="jiayi('#{{=img}}')">+</span></a></span>-->
+                        <!--</div>-->
+                        <!--<div class="delete_box f_right" onclick="shanchu()">-->
+                            <!--<a href="javascript:void(0)"><span class="delete_up"></span></a>-->
+                            <!--<a href="javascript:void(0)"> <span class="delete_down"></span></a>-->
+                        <!--</div>-->
+                     <!--</div>-->
+                 <!--</div>-->
+             <!--</div>-->
+
+
+
+             <!--<div class="shop_info clearfix" >-->
+             <div style="margin-top: 5px" class="sums">
+                     <div style="float: left;margin-top:40px;margin-left: 20px" id="hahaha" >
+
+                             <label onclick="dianji(this)"><input class="checkboxs" name="mydiy" type="checkbox" id="mydiy" value="" /> </label>
+                             <div style="display: none" id="danjia">{{=danjia}}</div>
+                     </div>
+                 <div style="float: left;margin-left: 15px">
+                 <a href="#" class="img_box f_left"><img style="width:100px;height: 100px" src="/diyimg/{{=username}}/{{=img}}" alt=""></a>
+                 </div>
+
+                 <div style="float: left;margin-left: 20px;">
+                     <div style="float: left;width:300px;">
+                     <a class="p_name" href="#">{{=diyname}} </a><br/><br/>
+                         <div style="height: 50px">
+                     <a class="p_name" href="#">备注:{{=beizhu}} </a>
+                             </div>
+
+                     <span id="danjia" style="color: red">&yen;{{=danjia}}</span>
+                        </div>
+                     <div class="p_opition" style="margin-left:350px;margin-top:50px;float: left">
+                         <div style="margin-right: 120px">
+                         <div class="change_num f_left">
+                             <span onclick="jianyi(this)"><a href="javascript:void(0)" ><span id="jianyi" >-</span></a></span>
+                             <input type="text" onfocus="jicun(this)" onblur="panduan(this)" value='1' name="hhaha"id="shuru"/>
+                             <span onclick="jiayi(this)"><a href="javascript:void(0)" ><span id="jiayi" onclick="jiayi('#{{=img}}')">+</span></a></span>
+                         </div>
+                         </div>
+                         <div id="diybiaoshi" style="display: none">{{=diybiaoshi}}</div>
+                         <div style="margin-left: 100px">
+                         <div class="delete_box f_right" onclick="shanchu()" >
+                             <a href="javascript:void(0)"><span class="delete_up"></span></a>
+                             <a href="javascript:void(0)"> <span class="delete_down"></span></a>
+                         </div>
+                             </div>
+                     </div>
+                 </div>
+             </div>
+             </div>
+         </div>
+        </script>
+
+     </div>
+    <div style="width:100%;height: 7.5%;position: fixed; bottom:0;margin-bottom:0.5px;background: white;border: 1px;-webkit-box-shadow:0 0 10px #B3B3B3;
+  -moz-box-shadow:0 0 10px #B3B3B3;
+  box-shadow:0 0 10px #B3B3B3;">
+        <span style="margin-left: 70%;">总价:<span id="zongjia" style="color:red">0</span>元</span>
+        <span onclick="shengchengdingdan()"><a href="javascript:void(0)"  style=" color:white;  text-align:center;margin-top:5px;font-size:25px;"><div  style="float: right;width:15%;height:100%;background: #DC143C" >
+          立即下单
+        </div></a></span>
+
+
+    </div>
+ </div>
+</form>
+<div class="jd_win">
+    <div class="jd_win_box">
+        <div class="jd_win_tit">你确定删除该商品吗？</div>
+        <div class="jd_btn clearfix">
+            <a href="#" class="cancle f_left">取消</a>
+            <a href="#" class="submit f_right">确定</a>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+</body>
+<script>
+    function shengchengdingdan()
+    {
+        var shangpins=new Array();
+        var objs=document.querySelectorAll(".checkboxs");
+        var objs1=document.querySelectorAll(".sums");
+            for(var i=0;i<objs.length;i++)
+            {
+                if( objs[i].checked == true) {
+
+                    var diybiaoshi = objs1[i].querySelector("#diybiaoshi").innerHTML.toString();
+
+                    var shuliang = objs1[i].querySelector("#shuru").value;
+                    shangpins.push({"diybiaoshi": diybiaoshi, "shuliang": shuliang});
+                }
+            }
+         var shangpins1=JSON.stringify(shangpins);
+           if(parseInt(document.querySelector("#zongjia").innerHTML)>0){
+        $.post("/createdingdan",{"shangpins":shangpins1,"zongjia":document.querySelector("#zongjia").innerHTML},function(result){
+            window.location.href="/views/dingdanindex.html";
+        })
+//               $.ajax({
+//                   url: '/createdingdan',
+//                   data: { "shangpins": shangpins ,"zongjia":document.querySelector("#zongjia").innerHTML},
+//                   dataType: "json",
+//                   type: "POST",
+//                   traditional: true,
+//                   success: function (result) {
+//                       if(result=="1")
+//                       {
+//                           window.location.href="/showdingdan";
+//                       }
+//                   }
+//               });
+           }
+    }
+var temp=1;
+  function jicun(a)
+  {
+      temp=a.value;
+  }
+  var compiled = _.template($("#moban").html());
+   function jianyi(a){
+       var b=$(a).parent().parent().parent().parent().parent().children()[0];
+
+       var c=b.querySelector("input");
+       if(c.checked==true)
+       {
+           var shuliangobj = a.nextElementSibling;
+           var shuliang = $(shuliangobj).val();
+
+           if (parseInt(shuliang) > 1)
+           {
+               shuliang = parseInt(shuliang) - 1;
+               var muqianzongjia = parseInt(document.querySelector("#zongjia").innerHTML);
+               var danjia = parseInt(b.querySelector("#danjia").innerHTML);
+               document.querySelector("#zongjia").innerHTML=muqianzongjia-danjia;
+               $(shuliangobj).val(shuliang);
+           }
+       }
+       else
+       {
+           var shuliangobj = a.nextElementSibling;
+           var shuliang = $(shuliangobj).val();
+
+           if (parseInt(shuliang) > 1)
+           {
+               shuliang = parseInt(shuliang) - 1;
+               $(shuliangobj).val(shuliang);
+               $(c).attr("checked", true);
+               var thisshuliang = shuliang;
+               var danjia = parseInt(b.querySelector("#danjia").innerHTML);
+               var thiszongjia = thisshuliang * danjia;
+               var muqianzongjia = parseInt(document.querySelector("#zongjia").innerHTML);
+               document.querySelector("#zongjia").innerHTML = muqianzongjia + thiszongjia;
+           }
+       }
+   }
+    function jiayi(a)
+    {
+        var b=$(a).parent().parent().parent().parent().parent().children()[0];
+        var c=b.querySelector("input");
+        if(c.checked==true){
+        var shuliang;
+        var shuliangobj= a.previousElementSibling;
+        if($(shuliangobj).val()=="")
+        {
+             shuliang = 0;
+            shuliang = shuliang + 1;
+        }
+        else
+        {
+          shuliang=$(shuliangobj).val();
+            shuliang=parseInt(shuliang)+1;
+        }
+        $(shuliangobj).val(shuliang);
+            var muqianzongjia = parseInt(document.querySelector("#zongjia").innerHTML);
+            var danjia = parseInt(b.querySelector("#danjia").innerHTML);
+            document.querySelector("#zongjia").innerHTML=muqianzongjia+danjia;
+
+    }
+        else
+        {
+
+            var shuliang;
+            var shuliangobj= a.previousElementSibling;
+            if($(shuliangobj).val()=="")
+            {
+                shuliang = 0;
+                shuliang = shuliang + 1;
+            }
+            else
+            {
+                shuliang=$(shuliangobj).val();
+                shuliang=parseInt(shuliang)+1;
+            }
+            $(shuliangobj).val(shuliang);
+            c.checked=true;
+            var thisshuliang = shuliang;
+            var danjia = parseInt(b.querySelector("#danjia").innerHTML);
+            var thiszongjia = thisshuliang * danjia;
+            var muqianzongjia = parseInt(document.querySelector("#zongjia").innerHTML);
+            document.querySelector("#zongjia").innerHTML=muqianzongjia+thiszongjia;
+        }
+    }
+   $.get("/getgouwuche", function (result)
+   {
+
+            if(result=="-1")
+            {
+                alert("出错了");
+                return;
+            }
+            if(result.length>1)
+            {
+//                alert("haha");
+                for(var i=1;i<result.length;i++){
+                var htmlstring = compiled(result[i]);
+//              alert(htmlstring);
+                $("#quanbushuoshuo").append($(htmlstring));
+            }
+   }});
+    function dianji(a)
+    {
+        if (a.querySelector("input").checked==true)
+        {
+            var b = $(a).parent().next().next().children()[1];
+            var c = b.querySelector("#shuru");
+            var thisshuliang = parseInt($(c).val());
+            var danjia = parseInt(a.nextElementSibling.innerHTML);
+            var thiszongjia = thisshuliang * danjia;
+            var muqianzongjia = parseInt(document.querySelector("#zongjia").innerHTML);
+            muqianzongjia = muqianzongjia + thiszongjia;
+//        var danjiaobj=a.nextElementSibling;
+//        alert(danjiaobj);
+//        var danjia= parseInt($(danjiaobj).html());
+//        alert(danjia);
+//        alert($(danjiaobj).innerHTML);
+//        alert($(danjiaobj).val());
+//        var zongjia=muqianzongjia+inputsh
+// uliang*danjia;
+//            alert(document.querySelector("#zongjia"));
+
+            document.querySelector("#zongjia").innerHTML = muqianzongjia;
+        }
+        else
+        {
+            var inputshuliang = a.querySelector("#shuru");
+            var b = $(a).parent().next().next().children()[1];
+            var c = b.querySelector("#shuru");
+            var thisshuliang = parseInt($(c).val());
+            var danjia = parseInt(a.nextElementSibling.innerHTML);
+            var thiszongjia = thisshuliang * danjia;
+            var muqianzongjia = parseInt(document.querySelector("#zongjia").innerHTML);
+            document.querySelector("#zongjia").innerHTML=muqianzongjia-thiszongjia;
+        }
+    }
+    function quanxuan(a)
+    {
+        var objs=document.querySelectorAll(".checkboxs");
+        var objs1=document.querySelectorAll(".sums");
+        if(a.checked==true)
+        {
+            var sum=0
+            for(var i=0;i<objs.length;i++)
+            {
+                objs[i].checked = true;
+                sum=sum+parseInt(objs1[i].querySelector("#danjia").innerHTML)*parseInt(objs1[i].querySelector("#shuru").value);
+            }
+            document.querySelector("#zongjia").innerHTML=sum;
+        }
+        else
+        {
+            for(var i=0;i<objs.length;i++)
+            {
+                $(objs[i]).removeAttr("checked");
+            }
+            document.querySelector("#zongjia").innerHTML=0;
+        }
+    }
+    function panduan(a)
+    {
+        if(parseInt(a.value)<1){
+            alert("数量不能小于1");
+            a.value=temp;
+        }
+        else if(isNaN(a.value)|| a.value=="")
+        {
+            alert("请输入数字");
+            a.value=temp;
+        }
+        else
+        {
+            var b=$(a).parent().parent().parent().parent().parent().children()[0];
+            var danjia = parseInt(b.querySelector("#danjia").innerHTML);
+            var c=b.querySelector("input");
+            if(c.checked==true)
+            {
+                  var nowshuliang=parseInt(a.value);
+                  var shuliangcha=nowshuliang-temp;
+
+                var muqianzongjia = parseInt(document.querySelector("#zongjia").innerHTML);
+                document.querySelector("#zongjia").innerHTML=muqianzongjia+shuliangcha*danjia;
+            }
+            else
+            {
+                c.checked=true;
+                var muqianzongjia = parseInt(document.querySelector("#zongjia").innerHTML);
+                var nowshuliang=parseInt(a.value);
+                document.querySelector("#zongjia").innerHTML=muqianzongjia+nowshuliang*danjia;
+            }
+        }
+    }
+</script>
+<script src="/js/cartjs.js"></script>
+</html>

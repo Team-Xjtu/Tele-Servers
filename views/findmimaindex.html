@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>密码找回</title>
+
+<link rel="icon" href="../../favicon.ico">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="/css/jumbotron.css" rel="stylesheet">
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/underscore.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">班级说说</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" id="xingming"></a></li>
+                <li><a href="/dodiy">开始DIY</a></li>
+                <li><a href="/gouwucheindex">我的收藏</a></li>
+                <li><a href="/views/personinfo.html">个人中心</a></li>
+                <li><a href="/tuichu">退出登录</a></li>
+            </ul>
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+<div class="jumbotron"style="height: 1000px">
+    <div class="container" >
+<div class="form-group">
+    <label for="exampleInputEmail1">用户名</label>&nbsp;&nbsp;<span  style="color: red" id="nameMessage"></span><span class="tishi" style="color:#808080" id="nameMessage1"></span>
+    <input onfocus="xiugai('nameMessage1')" onblur="testusername('nameMessage')" type="text" class="form-control" id="username" name="nameMessage"placeholder="用户名" >
+</div>
+<div class="form-group">
+    <label for="exampleInputEmail1">邮箱</label>&nbsp;<span  style="color: red" id="emailMessage"></span><span class="tishi" style="color:#808080" id="emailMessage1"></span>
+    <input type="text"onfocus="xiugai('emailMessage1')" onblur="testemail('emailMessage')" class="form-control" id="email"placeholder="邮箱" >
+</div>
+<button  id="submit" onclick="submit()" class="btn btn-primary">邮箱找回密码</button>
+        <div style="display: none" class="alert alert-success"id="chenggong" role="alert"></div>
+        <div style="display: none"  class="alert alert-danger" id="cuowukuang"role="alert"></div>
+</div>
+    </div>
+</body>
+<script>
+    var flag=[0,0];
+    $.get("/getinfo",function(result) {
+//        alert(result);
+        var dataObj = eval("(" + result + ")");
+//        alert(dataObj.avatar);
+
+//        alert(document.querySelector("#touxiang").src);
+        document.querySelector("#xingming").innerHTML = "欢迎您，" + dataObj.username;
+
+    });
+    function testusername(a){
+        document.querySelector("#nameMessage1").innerHTML="";
+        var reg=/^[a-zA-Z]\w{5,15}$/;
+        if(!reg.test($("#username").val())){
+            document.querySelector("#"+a).innerHTML="用户名长度在6到16个字符且为数字和字符的组合，不能以数字开头";
+            flag[0]=0;
+        }else{
+            flag[0]=1;
+        }
+        if(flag[0]==1){
+            $.get("/testusername?username="+$("#username").val(),function(result){
+                if(result!="-1"){
+                    document.querySelector("#nameMessage").innerHTML="未注册的用户名";
+                    flag[0]=0;
+                }
+                else{
+                    flag[0]=1;
+                }
+            });}}
+    function xiugai(a) {
+        document.querySelector(".tishi").innerHTML = "";
+        if (a == "nameMessage1") {
+            document.querySelector("#nameMessage").innerHTML = "";
+            document.querySelector("#" + a).innerHTML = "请输入要找回密码的用户名";
+        }
+        if (a == "emailMessage1") {
+            document.querySelector("#emailMessage").innerHTML = "";
+            document.querySelector("#" + a).innerHTML = "请输入您的密保邮箱";
+        }
+    }
+    function testemail()
+    {
+        document.querySelector("#emailMessage1").innerHTML="";
+        var email=$("#email").val();
+        if(email=="")
+        {
+            document.querySelector("#emailMessage").innerHTML="邮箱不能为空";
+            flag[1]=0;
+        }
+
+        else
+        {
+            reg=/^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/gi;
+            if(!reg.test(email))
+            {document.querySelector("#emailMessage").innerHTML="请输入正确的邮箱格式";
+                flag[1]=0;
+            }
+            else{
+                flag[1]=1;
+            }
+        }
+        if(flag[1]==1&&flag[0]==1){
+            $.get("/testemail?username="+$("#username").val()+"&email="+$("#email").val(),function(result){
+                if(result=="-1"){
+                    document.querySelector("#emailMessage").innerHTML="邮箱与用户名不匹配";
+                    flag[1]=0;
+                }
+                else{
+                    flag[1]=1;
+                }
+            });}
+//        else{
+//            document.querySelector("#emailMessage").innerHTML="邮箱与用户名不匹配";
+//        }
+        }
+    function submit(){
+
+        if(flag[0]==1&&flag[1]==1){
+            $.get("/mimazhaohui?username="+$("#username").val()+"&email="+$("#email").val(),function(result){
+                //alert(result);
+                if(result=="-1"){
+                    $("#cuowukuang").fadeIn();
+                    $("#cuowukuang").html("服务器错误");
+                    setTimeout("$('#cuowukuang').fadeOut()", 2500);
+                }
+                if(result=="-2"){
+                    $("#cuowukuang").fadeIn();
+                    $("#cuowukuang").html("此用户名未注册");
+                    setTimeout("$('#cuowukuang').fadeOut()", 2500);
+                }
+                if(result=="-3"){
+                    $("#cuowukuang").fadeIn();
+                    $("#cuowukuang").html("用户名和邮箱不匹配");
+                    setTimeout("$('#cuowukuang').fadeOut()", 2500);
+                }
+                if(result=="1"){
+                    $("#chenggong").fadeIn();
+                    $("#chenggong").html("密码找回成功，请登录邮箱查看");
+                    setTimeout("$('#chenggong').fadeOut()", 5000);
+                }
+
+
+            });}
+
+    }
+
+
+</script>
+</html>

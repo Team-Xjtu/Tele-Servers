@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品</title>
+</head>
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/underscore.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/jumbotron.css" rel="stylesheet">
+<body>
+<div align="center">
+<button type="button" class="btn btn-default"><a href="/getkefuaddshangpin" >增加商品</a></button>
+</div>
+    <%for(var i=0;i<shangpins.length;i++){%>
+<div class="row">
+        <div class="col-sm-12">
+            <div class="thumbnail">
+
+                <div class="caption">
+                    <h3>商品名称:<%=shangpins[i].shangpinname%></h3>
+                    <h5>商品描述信息:<%=shangpins[i].shangpinjieshao%></h5>
+                    <h5>商品邮费:<%=shangpins[i].youfei%></h5>
+                    <h5>商品单价:<%=shangpins[i].shangpindanjia%></h5>
+                    <h5>商品所属类别:<%=shangpins[i].shangpintype%></h5>
+                    <h5>商品添加时间:<%=shangpins[i].tianjiashijian%></h5>
+                    <h5>商品添加人:<%=shangpins[i].tianjiaren%></h5>
+                    <h5>商品号:<%=shangpins[i].shangpinhao%></h5>
+                    <h5>商品被购买次数:<%=shangpins[i].goumaicishu%></h5>
+                    <h5>商品推荐等级:<%=shangpins[i].tuijianji%></h5>
+                    <h5>商品最后修改时间:<%=shangpins[i].lastxiugaitime%></h5>
+                    <h5>商品图片数:<%=shangpins[i].shangpinpiccount%></h5>
+                    <h5>商品3d模型文件数:<%=shangpins[i].moxingwenjiancount%></h5>
+
+                </div>
+                <h5>商品模型文件:</h5>
+                <div align="center" class="row" id="box">
+                    <%for(var k=0;k<shangpins[i].path3darray.length;k++){%>
+                    <div class="col-xs-2"><img style="width: 200px;height: 200px"  src="/images/wenjianpic.jpg" /><br><a href="javascript:void(0)"><%=shangpins[i].moxingnamearray[k]%></a></div>
+                    <%}%>
+                </div>
+                <h5>商品图片:</h5>
+
+                <div align="center" class="row" id="box">
+                    <%for(var k=0;k<shangpins[i].patharray.length;k++){%>
+                    <div class="col-xs-2"><img style="width: 200px;height: 200px"  src="<%=shangpins[i].patharray[k]%>" /></div>
+                    <%}%>
+                </div>
+
+                <br>
+                <br>
+                <a href="/getkefuxiugaishangpin?shangpinhao=<%=shangpins[i].shangpinhao%>" class="btn btn-default" role="button">修改</a>
+                <a href="javascript:void(0)" class="btn btn-default" name="<%=shangpins[i].shangpinhao%>" onclick="shanchu(this.name)" role="button">删除</a>
+            </div>
+
+
+
+        </div>
+    </div>
+<%}%>
+<div style="margin-top:50px;display: none;" align="center" class="alert alert-success"id="chenggong" role="alert">保存成功</div>
+
+</body>
+<script>
+    function shanchu(a)
+    {
+        $.get("/shanchushangpin?shangpinhao="+a,function(result)
+        {
+           if(result=="-1")
+           {
+               alert('删除失败');
+           }
+            if(result=="1")
+            {
+                $("#chenggong").html("删除成功");
+                $("#chenggong").fadeIn();
+                setTimeout('$("#chenggong").fadeOut()', 2000);
+                window.location.href="/";
+            }
+        })
+    }
+</script>
+
+</html>

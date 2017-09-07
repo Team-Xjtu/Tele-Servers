@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品</title>
+</head>
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/underscore-noflect.js"></script>
+
+
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/jumbotron.css" rel="stylesheet">
+<body>
+<div align="center">
+<button type="button" class="btn btn-default"><a href="/getkefuaddshangpin" >增加商品</a></button>
+</div>
+<div id="rongqi">
+
+</div>
+<script type="text/template"id="moban">
+    {{_.each(obj, function(item) { }}
+<div class="row" >
+        <div class="col-sm-12">
+            <div class="thumbnail">
+
+                <div class="caption">
+                    <h3>商品名称:{{=item.shangpinname}}</h3>
+                    <h5>商品描述信息:{{=item.shangpinjieshao}}</h5>
+                    <h5>商品邮费:{{=item.youfei}}</h5>
+                    <h5>商品单价:{{=item.shangpindanjia}}</h5>
+                    <h5>商品所属类别:{{=item.shangpintype}}</h5>
+                    <h5>商品添加时间:{{=item.tianjiashijian}}</h5>
+                    <h5>商品添加人:{{=item.tianjiaren}}</h5>
+                    <h5>商品号:{{=item.shangpinhao}}</h5>
+                </div>
+                <h5>商品图片:</h5>
+                <div align="center" class="row" id="box">
+                    {{_.each(item.patharray, function(item1) {}}
+                    <div class="col-xs-2"><img style="width: 200px;height: 200px"  src="{{=item1}}" /></div>
+                    {{ } }}
+                </div>
+
+                <br>
+                <br>
+                <a href="#" class="btn btn-default" role="button">修改</a>
+                <a href="javascript:void(0)" class="btn btn-default" name="{{=item.shangpinname%>" onclick="shanchu(this.name)" role="button">删除</a>
+            </div>
+
+
+
+        </div>
+    </div>
+    {{ } }}
+</script>
+<div style="margin-top:50px;display: none;" align="center" class="alert alert-success"id="chenggong" role="alert">保存成功</div>
+
+</body>
+<script>
+    function shanchu(a)
+    {
+        $.get("/shanchushangpin?shangpinname="+a,function(result)
+        {
+           if(result=="-1")
+           {
+               alert('删除失败');
+           }
+            if(result=="1")
+            {
+                $("#chenggong").html("删除成功");
+                $("#chenggong").fadeIn();
+                setTimeout('$("#chenggong").fadeOut()', 2000);
+                window.location.href="/";
+            }
+        })
+    }
+    getpage();
+    function getpage(page) {
+//          var $quanbushuoshuo = $("#quanbushuoshuo");
+        $("#quanbushuoshuo").html("");
+//          var compiled = _.template($("#moban").html());
+
+        $.ajax({
+                    "url": "/getshangpins",
+                    "type": "get",
+
+                    "success": function (result) {
+
+                                //组装模板
+//                                var htmlstring = compiled(result2[i]);
+//
+//                                $("#quanbushuoshuo").append($(htmlstring));
+                        var obj=result.result;
+                            $("ronqi").html( _.template($("#moban").html(), obj));
+
+
+                            }
+
+
+    })
+
+
+    }
+</script>
+
+</html>

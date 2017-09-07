@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title id="title"></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/jumbotron.css" rel="stylesheet">
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/underscore.js"></script>
+    <style type="text/css">
+        .grid{
+            margin-top: 20px;
+            /*border-top: 1px solid #808080;*/
+
+            height:236px;
+
+        }
+        .neirong{
+
+
+            height:100px;
+
+        }
+
+        </style>
+</head>
+<body>
+<div style="display: none" id="panduan"></div>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">班级说说</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" id="xingming"></a></li>
+                <li><a href="/dodiy">开始DIY</a></li>
+                <li><a href="/gouwucheindex">我的收藏</a></li>
+                <li><a href="/gerenzhongxin">个人中心</a></li>
+                <li><a href="/tuichu">退出登录</a></li>
+            </ul>
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+<h1 align="center"><a  href="#"><img id="touxiang" src="" width="156" height="169" alt=" " class="img-thumbnail"></a></h1>
+
+<div align="center" class="container">
+    <!-- 分页条-->
+    <nav>
+        <ul class="pagination">
+
+        </ul>
+    </nav>
+
+<div class="row" id="quanbushuoshuo" >
+
+</div>
+
+<hr>
+</div>
+<script type="text/template"id="moban">
+     <div align="center" class="col-md-6 grid">
+         <div id="thum" class="thumbnail">
+        <h2 id="yhm"><img width="46" src="{{=avatar}}" alt=""/>{{=username}}说</h2>
+             <div class="caption">
+        <p class="neirong">{{=content}}</p>
+
+        <p>{{=date}}</p>
+
+
+                 <button  onclick="dianzan(this.name,this)" name="{{=_id}}" class="btn btn-default btn-xs">
+                     <span style="{{=yanse}}" id="span1"  class="glyphicon glyphicon-thumbs-up" aria-hidden="true" >{{=zan.length-2}}</span>
+                 </button>
+                 <button type="button" class="btn btn-default btn-xs">
+                     <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
+                 </button>
+
+                 <a href="/showuserindex?username={{=username}}">
+                     <button type="button" class="btn btn-default btn-xs">
+                         <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                     </button>
+                 </a>
+           <span {{=flag}}>
+          <a   href="/shanchushuoshuo?id={{=_id}}">
+              <button   type="button" class="btn btn-default btn-xs">
+                  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              </button>
+          </a>
+            </span>
+             </div>
+         </div>
+    </div>
+</script>
+</body>
+<script >
+    //分页条的Ajax
+
+</script>
+<script type="text/javascript">
+    //    var $quanbushuoshuo = $("#quanbushuoshuo");
+    var compiled = _.template($("#moban").html());
+   var usernames=window.location.toString().split('?')[1];
+    var  username=usernames.toString().split("=")[1];
+//     alert(username);
+    $.get("/getinfo?username="+username,function(result) {
+//        alert(result);
+        var dataObj = eval("(" + result + ")");
+//        alert(dataObj.avatar);
+        document.querySelector("#touxiang").src = "/avatar/" + dataObj.avatar;
+//        alert(document.querySelector("#touxiang").src);
+        document.querySelector("#xingming").innerHTML = "欢迎您，" + dataObj.username;
+        document.querySelector("#panduan").innerHTML = dataObj.username;
+        document.querySelector("#title").innerHTML=username+"的个人主页";
+        $.get("/getshuoshuoamount1?username="+username, function (result1) {
+//            alert(result);
+            if (result1 == "-1") {
+                return;
+            }
+            var amount = parseInt(result1);
+            //总页数
+            pageamount = Math.ceil(amount / 10);
+//            alert(amount);
+            for (var i = 1; i <= pageamount; i++) {
+                $(".pagination").append("<li><a href='javascript:void(0);'>" + i + "</a></li>");
+            }
+            $(".pagination li:first").addClass("active");
+            //监听
+            $(".pagination li").click(function () {
+                var page = parseInt($(this).index());
+//                alert(page);
+                $(this).addClass("active").siblings().removeClass("active");
+                getpage(page);
+//                $(this).addClass("active").siblings().removeClass("active");
+            });
+        })
+        getpage(0);
+    })
+    function getpage(page) {
+//          var $quanbushuoshuo = $("#quanbushuoshuo");
+        $("#quanbushuoshuo").html("");
+//          var compiled = _.template($("#moban").html());
+//        alert(username);
+        $.ajax({
+                    "url": "/getallshuoshuo1?page=" + page+"&username="+username,
+                    "type": "get",
+                    "success": function (result) {
+//                          alert(result.length);
+                        if(result=="-1"){
+                            return;
+                        }
+                        iterator(0);
+
+                        function iterator(i) {
+                            if (i == result.length) {
+
+                                return;
+                            }
+
+                            $.get("/getuserinfo?username=" + result[i].username, function (result2) {
+                                result[i].avatar = result2.avatar;
+                                var user=document.querySelector("#panduan").innerHTML;
+                                if(result[i].username!=user) {
+                                    result[i].flag='hidden';
+                                }else{
+                                    result[i].flag='';
+                                }
+                                //组装模板
+                                var htmlstring = compiled(result[i]);
+
+                                $("#quanbushuoshuo").append($(htmlstring));
+                                iterator(i + 1);
+                            });
+                        }
+                    }
+                }
+        );
+
+    }
+
+    function dianzan(a,b){
+        $.get("/dianzan?id="+a,function(result){
+//            alert(b.childNodes[0].innerHTML);
+//                 alert(result);
+            b.querySelector("#span1").innerHTML=result.dianzanshu-2;
+//            b.querySelector("#span1").css("color","orange");
+            if(result.xinzeng=="1"){
+                $(b.querySelector("#span1")).css("color","orange");
+//            getpage(0);
+            }
+            else{
+                $(b.querySelector("#span1")).css("color","");
+            }
+        });
+
+    };
+</script>
+</html>

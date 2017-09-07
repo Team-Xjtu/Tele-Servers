@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>班级说说</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+     <link href="/css/jumbotron.css" rel="stylesheet">
+    <style type="text/css">
+        body{padding-top: 120px;
+        }
+        #cuowukuang{
+            display: none;
+        }
+        #chenggong{
+            display: none;
+        }
+    </style>
+
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">班级说说</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">登录</a></li>
+                <li><a  class="active" href="#">注册</a></li>
+            </ul>
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+
+
+<div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+       <h1>欢迎注册</h1>
+        <form>
+            <div class="form-group">
+                <label for="exampleInputEmail1">用户名</label>&nbsp;&nbsp;<span  style="color: red" id="nameMessage"></span><span class="tishi" style="color:#808080" id="nameMessage1"></span>
+                <input onfocus="xiugai('nameMessage1')" onblur="testusername('nameMessage')" type="text" class="form-control" id="username" name="nameMessage"placeholder="设置用户名" >
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">邮箱</label>&nbsp;<span  style="color: red" id="emailMessage"></span><span class="tishi" style="color:#808080" id="emailMessage1"></span>
+                <input type="text"onfocus="xiugai('emailMessage1')" onblur="testemail('emailMessage')" class="form-control" id="email"placeholder="输入邮箱" >
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">密码</label>&nbsp;<span style="color: red" id="mima1Message"></span><span class="tishi" style="color:#808080" id="mima1Message1"></span>
+                <input type="password" onfocus="xiugai('mima1Message1')" onblur="testmima1('mima1Message')" class="form-control" id="password" placeholder="至少6位">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">确认密码</label>&nbsp;<span style="color: red" id="mima2Message"></span><span class="tishi" style="color:#808080" id="mima2Message1"></span>
+                <input type="password"onfocus="xiugai('mima2Message1')" onblur="testmima2('mima2Message')" class="form-control" id="password2" placeholder="至少6位">
+            </div>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"> 同意协议
+                </label>
+            </div>
+
+        </form>
+        <button  id="submit" onclick="submit()" class="btn btn-primary">注册</button>
+        <div class="alert alert-success"id="chenggong" role="alert">成功</div>
+    </div>
+
+    <hr>
+
+    <footer>
+        <p>&copy; 2016 Company, Inc.</p>
+    </footer>
+</div> <!-- /container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script>
+    var flag=[0,0,0,0];
+
+    function testusername(a){
+        document.querySelector("#nameMessage1").innerHTML="";
+        if($("#username").val()!=""){
+
+            var reg=/^[a-zA-Z]\w{5,15}$/;
+            if(!reg.test($("#username").val())){
+                document.querySelector("#"+a).innerHTML="用户名长度在6到16个字符且为数字和字符的组合，不能以数字开头";
+                flag[0]=0;
+            }else{
+                flag[0]=1;
+            }
+        if(flag[0]==1){
+        $.get("/testusername?username="+$("#username").val(),function(result){
+            if(result=="-1"){
+                document.querySelector("#nameMessage").innerHTML="用户名已存在";
+                 flag[0]=0;
+            }
+            else{
+                flag[0]=1;
+            }
+        });}}}
+        function xiugai(a){
+            document.querySelector(".tishi").innerHTML="";
+            if(a=="nameMessage1"){
+                document.querySelector("#nameMessage").innerHTML="";
+                document.querySelector("#"+a).innerHTML="长度在6到16个字符，数字和字母组合且不能以数字开头";
+               }
+            if(a=="emailMessage1"){
+                document.querySelector("#emailMessage").innerHTML="";
+                document.querySelector("#"+a).innerHTML="将作为您的密保邮箱";
+            }
+            if(a=="mima1Message1"){
+                document.querySelector("#mima1Message").innerHTML="";
+                document.querySelector("#"+a).innerHTML="密码长度6-16，字母或者数字";
+            }
+            if(a=="mima2Message1"){
+                document.querySelector("#mima2Message").innerHTML="";
+                document.querySelector("#"+a).innerHTML="确认密码";
+            }
+            }
+
+
+    function testemail()
+    {
+        document.querySelector("#emailMessage1").innerHTML="";
+        if($("#email").val()!=""){
+
+        var email=$("#email").val();
+        if(email=="")
+        {
+            document.querySelector("#emailMessage").innerHTML="邮箱不能为空";
+            flag[1]=0;
+        }
+
+        else
+        {
+            reg=/^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/gi;
+            if(!reg.test(email))
+            {document.querySelector("#emailMessage").innerHTML="请输入正确的邮箱格式";
+                flag[1]=0;
+            }
+            else{
+                flag[1]=1;
+            }
+        }
+    }}
+    var mima1;
+    function testmima1(){
+        document.querySelector("#mima1Message1").innerHTML="";
+        if($("#password").val()!=""){
+
+        mima1=$("#password").val();
+        reg=/^[a-zA-Z0-9]{5,15}$/;
+        if(!reg.test(mima1)){
+            document.querySelector("#mima1Message").innerHTML="密码长度在6到16个字符，数字或者字母";
+            flag[2]=0;
+
+        }else
+        {
+            flag[2]=1;
+        }
+    }}
+    function testmima2(){
+        document.querySelector("#mima2Message1").innerHTML="";
+        if($("#password2").val()!=""){
+
+        var mima2=$("#password2").val();
+
+        if(mima1!=mima2){
+            document.querySelector("#mima2Message").innerHTML="两次密码不一致";
+            flag[3]=0;
+        }else
+        {
+            flag[3]=1;
+        }
+    }}
+
+    function submit(){
+
+      if(flag[0]==1&&flag[1]==1&&flag[2]==1&&flag[3]==1){
+        $.post("/doregist",{
+                "username":$("#username").val(),
+                "password":$("#password").val(),
+                "email":$("#email").val()
+        },function(result){
+            //alert(result);
+            if(result=="-2"){
+                $("#cuowukuang").fadeIn();
+                $("#cuowukuang").html("服务器错误");
+            }
+            if(result=="1"){
+                $("#chenggong").fadeIn();
+                $("#chenggong").html("注册成功,3秒后返回主页");
+                setTimeout("window.location.href='/views/index.html'", 3000);
+            }
+
+
+        });}
+
+    }
+
+//$("#zhuce").click(function(){
+//    $.ajax({
+//        type:"post",
+//        url:"/doregist",
+//        data:{
+//           "username":$("#username").val(),
+//           "password":$("#password").val()
+//       },
+//        success:function(result){
+//            if(result.flag=="-1"){
+//                alert("用户名存在");
+//               // window.location.href="/";
+//                $("#cuowukuang").fadeIn();
+//                $("#cuowukuang").html("用户名已存在，请更换");
+//
+//            }
+//            if(result.flag=="-2"){
+//                $("#cuowukuang").fadeIn();
+//                $("#cuowukuang").html("服务器错误");
+//            }
+//            if(result.flag=="1"){
+//                alert("chenggong");
+//
+//
+//                $("#chenggong").fadeIn();
+//               $("#chenggong").html("注册成功，5秒后自动返回主页");
+//                setTimeout(window.location.href="/",5000);
+//
+//           }
+//        },
+//        error:function(){
+//            alert("出错了");
+//        }
+//    });
+//});
+</script>
+</body>
+</html>

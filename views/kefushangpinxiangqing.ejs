@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/underscore.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/jumbotron.css" rel="stylesheet">
+<body>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar-header">
+        　<!-- .navbar-toggle样式用于toggle收缩的内容，即nav-collapse collapse样式所在元素 -->
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#demo">
+            <span class="sr-only">Toggle Navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <!-- 确保无论是宽屏还是窄屏，navbar-brand都显示 -->
+        <!--<a href="##" class="navbar-brand">订单</a>-->
+    </div>
+    <!-- 屏幕宽度小于768px时，div.navbar-responsive-collapse容器里的内容都会隐藏，显示icon-bar图标，当点击icon-bar图标时，再展开。屏幕大于768px时，默认显示。 -->
+    <div class="collapse navbar-collapse navbar-responsive-collapse" id="demo">
+        <ul class="nav navbar-nav">
+            <li  role="presentation" ><a href="/kefuxiugaioneshangpinindex?shangpinhao=<%=shangpin.shangpinhao%>">修改商品信息<span class="badge"></span></a></li>
+        </ul>
+        <div  class="navbar-form navbar-left">
+            <div class="form-group">
+                <input style="width:350px" type="text" id="searchshangpinhao" class="form-control" placeholder="请输入商品号" />
+            </div>
+            <a onclick="getshangpinbyshangpinhao()" href="javascript:void(0)"><button   class="btn btn-default">查找商品</button></a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="thumbnail">
+            <div class="list-group" style="margin-top: 5%">
+                <a class="list-group-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商&nbsp;品&nbsp;名&nbsp;称&thinsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span id="zongjia" ><%=shangpin.shangpinname%></span></a>
+                <a class="list-group-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商&nbsp;品&nbsp;单&nbsp;价&thinsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span id="zongjia" style="color:red"><%=shangpin.shangpindanjia%></span>元</a>
+                <a class="list-group-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商&nbsp;品&nbsp;邮&nbsp;费&thinsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span id="zongjia" ><%=shangpin.youfei%></span>元</a>
+                <a class="list-group-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;&nbsp;商&nbsp;品&nbsp;号&thinsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;|&nbsp;&nbsp;&nbsp;<%=shangpin.shangpinhao%></a>
+                <a class="list-group-item">&nbsp;商&nbsp;品&nbsp;添&nbsp;加&nbsp;时&nbsp;间&nbsp;&nbsp;|&nbsp;&nbsp;<%=shangpin.tianjiashijian%></a>
+                <a class="list-group-item">&nbsp;商&nbsp;品&nbsp;所&nbsp;属&nbsp;类&nbsp;别&nbsp;&nbsp;|&nbsp;&nbsp;<%=shangpin.shangpintype%></a>
+                <a class="list-group-item">&nbsp;商&nbsp;品&nbsp;推&nbsp;荐&nbsp;等&nbsp;级&nbsp;&nbsp;|&nbsp;&nbsp;<%=shangpin.tuijianji%></a>
+                <a class="list-group-item">&nbsp;商&nbsp;品&nbsp;描&nbsp;述&nbsp;信&nbsp;息&nbsp;&nbsp;|&nbsp;&nbsp;<%=shangpin.shangpinjieshao%></a>
+                <a class="list-group-item">&nbsp;&nbsp;&nbsp;&thinsp;&nbsp;商&nbsp;品&nbsp;添&nbsp;加&nbsp;人&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;<%=shangpin.tianjiaren%></a>
+                <a class="list-group-item">&nbsp;&nbsp;&nbsp;&thinsp;&nbsp;商&nbsp;品&nbsp;图&nbsp;片&nbsp;数&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;<%=shangpin.shangpinpiccount%></a>
+                <a class="list-group-item">&nbsp;&nbsp;&nbsp;&thinsp;&nbsp;被&nbsp;购&nbsp;买&nbsp;次&nbsp;数&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;<%=shangpin.goumaicishu%></a>
+                <a class="list-group-item">3d&nbsp;模&nbsp;型&nbsp;文&nbsp;件&nbsp;数&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;<%=shangpin.moxingwenjiancount%></a>
+            </div>
+
+            <h4>商品模型文件:</h4>
+            <div align="center" class="row" id="box">
+                <%for(var k=0;k<shangpin.path3darray.length;k++){%>
+                <div class="col-xs-2"><img style="width: 160px;height: 160px"  src="/images/wenjianpic.jpg" /><br><a href="javascript:void(0)"><%=shangpin.moxingnamearray[k]%></a><br><br><a href="<%=shangpin.path3darray[k]%>" download="<%=shangpin.moxingnamearray[k]%>">下载</a></div>
+
+
+                <%}%>
+            </div>
+            <br>
+            <h4>商品图片:</h4>
+
+            <div align="center" class="row" id="box">
+                <%for(var k=0;k<shangpin.patharray.length;k++){%>
+                <div class="col-xs-2"><img style="width: 160px;height: 160px"  src="<%=shangpin.patharray[k]%>" /><br><br><a href="<%=shangpin.patharray[k]%>" download="">下载</a></div>
+
+                <%}%>
+            </div>
+        </div>
+        <%if(shangpin.shangpinzhuangtai=="1"){%>
+       <div align="center"><button id="shenhe" onclick="shenhe(<%=shangpin.shangpinhao%>)" type="button" class="btn btn-primary">&nbsp;通过审核&nbsp;</button></div>
+<%}%>
+    </div>
+</div>
+</body>
+<script>
+    var limitrepeatsubmit=0;
+    function shenhe(a)
+    {
+        if(limitrepeatsubmit==0)
+        {
+            limitrepeatsubmit=1;
+            $.ajax({
+                type: "get",
+                url: "/kefushangpinshenhe?shangpinhao="+a,
+            }).success(function (msg) {
+                if (msg == "-1")
+                {
+                    alert("操作失败");
+                    limitrepeatsubmit = 0;
+                }
+                if(msg=="1")
+                {
+                   window.location.href="/kefushangpinindex";
+                    limitrepeatsubmit = 0;
+                }
+
+            }).fail(function (msg) {
+                limitrepeatsubmit = 0;
+                console.log(msg);
+            });
+
+        }
+    }
+</script>
+</html>

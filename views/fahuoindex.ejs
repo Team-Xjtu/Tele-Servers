@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/underscore.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="/css/jumbotron.css" rel="stylesheet">
+<style>
+.mytxt:focus {
+border: 1px solid #fafafa;
+-webkit-box-shadow: 0px 0px 6px #007eff;
+-moz-box-shadow: 0px 0px 5px #007eff;
+box-shadow: 0px 0px 5px #007eff;
+
+}</style>
+<body>
+<div align="center" >
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;订单号:<input type="text"  size="60" disabled="disabled"  class="mytxt" value="<%=dingdan.dingdanbiaoshi%>" />
+    <br>
+    <br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;物流单号:<input type="text" id="input1" size="60" placeholder="输入物流单号" value="" class="mytxt" />
+    <br>
+    <br>
+    <br>
+    确认物流单号:<input  id="input2" type="text" size="60" placeholder="确认物流单号" value="" class="mytxt" />
+    <br>
+    <br>
+    <br>
+    <button type="button" style="width:10%" class="btn btn-primary" onclick="submit('<%=dingdan.dingdanbiaoshi%>','<%=dingdan.dingdanowner%>')">发&nbsp;&nbsp;货</button>
+</div>
+</body>
+<script>
+    var limitrepeatsubmit=0;
+  function submit(a,b)
+  {
+      if(limitrepeatsubmit==0) {
+          limitrepeatsubmit = 1;
+          var input1 = $("#input1").val();
+          var input2 = $("#input2").val();
+          if (input1 == "" || input2 == "") {
+              alert("请输入物流号");
+              limitrepeatsubmit = 0;
+              return;
+          }
+          else if (input2 == "") {
+              alert("请确认物流号");
+              limitrepeatsubmit = 0;
+              return;
+          }
+          else if (input2 != input1) {
+              alert("两次物流号不一致");
+              limitrepeatsubmit = 0;
+              return;
+          }
+          else {
+              $.ajax({
+                  type: "get",
+                  url: "/fahuo?dingdanbiaoshi=" + a + "&username=" + b+"&wuliuhaoma="+input1,
+              }).success(function (msg) {
+                  if (msg == "-1")
+                  {
+                      alert("操作失败");
+                      limitrepeatsubmit = 0;
+                  }
+                  if(msg=="1")
+                  {
+
+                      $("#chenggong").html("保存成功");
+                      $("#chenggong").fadeIn();
+                      window.location.href="/kefugetdingdanindex";
+
+
+                  }
+
+              }).fail(function (msg) {
+                  limitrepeatsubmit = 0;
+                  console.log(msg);
+              });
+          }
+      }
+  }
+    $("input").onchange(function(){
+        limitrepeatsubmit=0;
+    })
+
+</script>
+</html>

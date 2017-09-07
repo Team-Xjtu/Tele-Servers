@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>上传头像</h1>
+<form id="upform" method="post" action="/doshezhi" enctype="multipart/form-data">
+    <input type="file" name="touxiang" />
+    <input type="submit"   value="submit" />
+</form>
+<!--<button id="submit" >提交</button>-->
+</body>
+<script   src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script></html>
+<script>
+    $("#submit").click(function(){
+        var formData=new FormData($("#upform")[0]);
+        $.ajax({
+           url:"/doshezhi",
+            type:"post",
+            data:formData,
+            async:true,
+            cache:false,
+            cintentType:false,
+            preocessData:false,
+            success:function(returndata){
+                alert(returndata);
+            },
+            error:function(returndata){
+                alert("error");
+            }
+        });
+    });
+</script>

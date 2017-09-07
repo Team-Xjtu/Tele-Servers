@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/underscore.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="/css/jumbotron.css" rel="stylesheet">
+<body>
+<div style="display: none" id="dingdanzhuangtai"><%=dingdan.dingdanzhuangtai%></div>
+
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar-header">
+        　<!-- .navbar-toggle样式用于toggle收缩的内容，即nav-collapse collapse样式所在元素 -->
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#demo">
+            <span class="sr-only">Toggle Navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <!-- 确保无论是宽屏还是窄屏，navbar-brand都显示 -->
+        <!--<a href="##" class="navbar-brand">订单</a>-->
+    </div>
+    <div class="collapse navbar-collapse navbar-responsive-collapse" id="demo">
+        <ul class="nav navbar-nav">
+            <li class="active" role="presentation" ><a href="/kefuxiugaionedingdan?dingdanbiaoshi=<%=dingdan.dingdanbiaoshi%>">修改订单信息<span class="badge"></span></a></li>
+        </ul>
+    </div>
+</div>
+<div style="margin-bottom: 10px;margin-top: 2%" >
+    <%for(var j=0;j<dingdan.dingdanshangpins.length;j++){%>
+    <div >
+        <table >
+            <tr>
+                <td style="width:120px;" > <img style="width:100px;height: 100px;" src="/diyimg/<%=dingdan.dingdanowner%>/<%=dingdan.dingdanshangpins[j].img%>"></td>
+                <div id="imgbiaoshi"style="display:none;"><%=dingdan.dingdanshangpins[j].img%></div>
+                <td style="width:74%;" align="left">  <span >
+                                    <h3><%=dingdan.dingdanshangpins[j].diyname%></h3>
+                                    <p><%=dingdan.dingdanshangpins[j].beizhu%></p>
+                                    <p><a href="javascript:void(0)"style="color: red">&yen;<%=dingdan.dingdanshangpins[j].danjia%></a> </p>
+                                  </span>
+                </td>
+                <td  ><span style="color:red;" >×&nbsp;<%=dingdan.dingdanshangpins[j].shuliang%></span></td>
+                <div style="display:none;" id="shuliang"><%=dingdan.dingdanshangpins[j].shuliang%></div>
+            </tr>
+
+        </table>
+    </div>
+    <%}%>
+    <div class="input-group" style="margin-top: 5%">
+        <span class="input-group-addon" id="basic-addon1" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;订&nbsp;单&nbsp;总&nbsp;价&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <input type="text" class="form-control" value="<%=dingdan.dingdanzongjia%>元" disabled="disabled" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;订&nbsp;单&nbsp;号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;</span>
+        <input type="text" class="form-control" value="<%=dingdan.dingdanbiaoshi%>" disabled="disabled" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">订&nbsp;单&nbsp;创&nbsp;建&nbsp;时&nbsp;间&nbsp;</span>
+        <input type="text" class="form-control" value="<%=dingdan.chuangjiantime%>" disabled="disabled" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">订&nbsp;单&nbsp;所&nbsp;属&nbsp;用&nbsp;户&nbsp;</span>
+        <input type="text" class="form-control" value="<%=dingdan.dingdanowner%>" disabled="disabled" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">订&nbsp;单&nbsp;目&nbsp;前&nbsp;状&nbsp;态&nbsp;</span>
+        <input type="text" class="form-control" value="<%=dingdan.dingdanzhuangtai%>" disabled="disabled" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;收&nbsp;货&nbsp;人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;</span>
+        <input id="shouhuoren" type="text" class="form-control" value="<%=dingdan.dingdandizhi.name%>"  <%if(dingdan.dingdanzhuangtai!="1"){%> disabled="disabled" <%}%>aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">&nbsp;&nbsp;&nbsp;&thinsp;收&nbsp;货&nbsp;人&nbsp;电&nbsp;话&nbsp;&nbsp;</span>
+        <input type="text" id="shouhuorendianhua"  class="form-control" value="<%=dingdan.dingdandizhi.dianhua%>" <%if(dingdan.dingdanzhuangtai!="1"){%> disabled="disabled" <%}%> aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;订&nbsp;单&nbsp;地&nbsp;址&nbsp;&nbsp;&nbsp;&thinsp;</span>
+        <input type="text" id="shouhuorendizhi"  class="form-control" value="<%=dingdan.dingdandizhi.dizhi%>" <%if(dingdan.dingdanzhuangtai!="1"){%> disabled="disabled" <%}%> aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;发&nbsp;货&nbsp;时&nbsp;间&nbsp;&nbsp;&nbsp;&thinsp;</span>
+        <input type="text" class="form-control" value="<%=dingdan.fahuoshijian%>"  disabled="disabled"  aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;物&nbsp;流&nbsp;单&nbsp;号&nbsp;&nbsp;&nbsp;&thinsp;</span>
+        <input type="text" id="wuliuhaoma" class="form-control" value="<%=dingdan.wuliuhaoma%>" <%if(dingdan.dingdanzhuangtai!="2"){%> disabled="disabled" <%}%> aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&thinsp;物&nbsp;流&nbsp;信&nbsp;息&nbsp;&nbsp;&nbsp;&thinsp;</span>
+        <input type="text" class="form-control" value="<%=dingdan.wuliuxinxi%>" disabled="disabled" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">确&nbsp;认&nbsp;收&nbsp;货&nbsp;时&nbsp;间&nbsp;&thinsp;</span>
+        <input type="text" class="form-control" value="<%=dingdan.shouhuoshijian%>"  disabled="disabled"  aria-describedby="basic-addon1">
+    </div>
+</div>
+<div align="center" style="margin-top: 5%"><button onclick="submit('<%=dingdan.dingdanbiaoshi%>','<%=dingdan.dingdanowner%>')" type="button" class="btn btn-primary">&nbsp;提&nbsp;交&nbsp;修&nbsp;改&nbsp;</button></div>
+
+</body>
+<script>
+   var paramscount=4;
+   var limitrepeatsubmit=0;
+   function submit(a,b) {
+
+       if(limitrepeatsubmit==0) {
+
+           limitrepeatsubmit=1;
+           var shouhuoren;
+           var shouhuorendianhua;
+           var shouhuorendizhi;
+           var wuliuhaoma;
+           var dingdanzhuangtai=document.querySelector("#dingdanzhuangtai").innerHTML;
+           if(dingdanzhuangtai!="1")
+           {
+               paramscount=1;
+           }
+           if(paramscount==1) {
+
+               var wuliuhaoma = $("#wuliuhaoma").val();
+               $.ajax({
+                   type: "POST",
+                   url: "/kefuxiugaionedingdan",
+                   dataType : "json",
+                   data: {"wuliuhaoma":wuliuhaoma,"paramcount":1,"username":b,"dingdanbiaoshi":a},
+               }).success(function (msg) {
+                   if (msg == "-1") {
+                       alert("操作失败");
+                       limitrepeatsubmit = 0;
+                   }
+                   if (msg == "1") {
+                       window.location.href = "/kefudingdanxiangqing?dingdanbiaoshi=" + a;
+                   }
+
+               }).fail(function (msg) {
+                   limitrepeatsubmit = 0;
+                   console.log(msg);
+               });
+           }
+           else
+           {
+
+                wuliuhaoma = $("#wuliuhaoma").val();
+
+                   shouhuoren=$("#shouhuoren").val();
+
+               shouhuorendianhua=$("#shouhuorendianhua").val();
+
+               shouhuorendizhi=$("#shouhuorendizhi").val();
+
+                   $.ajax({
+                       type: "POST",
+                       url: "/kefuxiugaionedingdan",
+                       dataType : "json",
+                       data: {"wuliuhaoma":wuliuhaoma,"shouhuoren":shouhuoren,"shouhuorendianhua":shouhuorendianhua,"shouhuorendizhi":shouhuorendizhi,"paramcount":4,"username":b,"dingdanbiaoshi":a},
+                   }).success(function (msg) {
+                       if (msg == "-1") {
+                           alert("操作失败");
+                           limitrepeatsubmit = 0;
+                       }
+                       if (msg == "1") {
+                           window.location.href = "/kefudingdanxiangqing?dingdanbiaoshi=" + a;
+                       }
+
+                   }).fail(function (msg) {
+                       limitrepeatsubmit = 0;
+                       console.log(msg);
+                   });
+               }
+           }
+       }
+
+</script>
+</html>

@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>班级说说</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/jumbotron.css" rel="stylesheet">
+
+    <style type="text/css">
+        /*body{*/
+            /*margin-top: 120px;*/
+        /*}*/
+
+        #quanbushuoshuo {
+            height: 500px;
+        }
+        .grid{
+            margin-top: 20px;
+            /*border-top: 1px solid #808080;*/
+
+            height:236px;
+
+        }
+        .neirong{
+
+
+            height:100px;
+
+        }
+
+        textarea{
+            border-top: 1px solid #808080;border-right: 1px solid #D4D0C8;border-bottom: 1px solid #D4D0C8;border-left: 1px solid #808080;
+        }
+        #cuowukuang{
+            display: none;
+        }
+        #cuowukuang1{
+            display: none;
+        }
+        #cuowukuang2{
+            display: none;
+        }
+        #cuowukuang3{
+            display: none;
+        }
+        #cuowukuang4{
+            display: none;
+        }
+        #cuowukuang5{
+            display: none;
+        }
+        #cuowukuang6{
+            display: none;
+        }
+        #chenggong{
+            display: none;
+        }
+        #chenggong1{
+            display: none;
+        }
+    </style>
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/underscore.js"></script>
+    <!--<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>-->
+
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">班级说说</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/login">登录</a></li>
+
+                </ul>
+
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+
+<div class="jumbotron">
+    <div class="container" height="1600">
+
+
+
+        <div class="row">
+
+            <div class="col-lg-6">
+                <div align="center">
+
+                    <!-- Main jumbotron for a primary marketing message or call to action -->
+        <p><h3>在这里你可以匿名的发表内心的言论，袒露你埋藏在内心的话语！吐槽，感谢，表白，抱怨，困惑，不满，感恩，开心......在这里有一片土地让你自由</h3></p>
+        <p><a class="btn btn-primary btn-lg" href="/views/regist.html" role="button" >立即注册，发表心声 </a></p>
+             </div>
+            </div>
+
+            <div class="col-lg-6">
+                <h2>欢迎登录</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">用户名</label>
+                        <input type="text" class="form-control" id="username" placeholder="请输入用户名">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">密码</label>
+                        <input type="password" class="form-control" id="password" placeholder="请输入密码">
+                    </div>
+                    <div>
+                    <div class="form-group" >
+                        <label for="exampleInputPassword1"></label>
+                        <span id="yzmspan"><input size="5"type="text"  id="yanzhengma" placeholder="验证码"/>
+                        <a href="javascript:void(0)"><img id="yanzhengmaimg" onclick="changeyzm(this)" style="height:30px;width:86px"src="/scyanzhengma"/></a>
+                         </span>
+                        <div  style="float:right"><a href="/views/findmimaindex.html">忘记密码？</a></div>
+                    </div>
+
+                    </div>
+
+
+
+                </form>
+                <button  id="submit" class="btn btn-primary btn-lg">登录</button>
+                <div class="alert alert-danger" id="cuowukuang"role="alert">用户名被占用</div>
+                <div class="alert alert-success"id="chenggong" role="alert">成功</div>
+                <div class="alert alert-danger" id="cuowukuang1"role="alert">账户不能为空</div>
+                <div class="alert alert-danger" id="cuowukuang2"role="alert">密码不能为空</div>
+                </div>
+
+
+
+          </div>
+
+        </div>
+</div>
+
+</body>
+
+<script>
+
+   function changeyzm(a){
+       a.src="/scyanzhengma";
+   }
+    function dianzan(a,b){
+        $.get("/dianzan?id="+a,function(result){
+//            alert(b.childNodes[0].innerHTML);
+//                 alert(result);
+              b.querySelector("#span1").innerHTML=result.dianzanshu-2;
+//            b.querySelector("#span1").css("color","orange");
+            if(result.xinzeng=="1"){
+            $(b.querySelector("#span1")).css("color","orange");
+//            getpage(0);
+            }
+            else{
+                $(b.querySelector("#span1")).css("color","");
+            }
+        });
+
+    };
+    $("#fabiao").click(function(){
+        if( $("#shuoshuo").val().length>200){
+            $("#cuowukuang3").fadeIn();
+        }
+        else if($("#shuoshuo").val().length==0){
+            $("#cuowukuang4").fadeIn();
+        }
+        else {
+            $.post("/postshuoshuo", {"content": $("#shuoshuo").val(),"huati":document.querySelector("#spselect").innerHTML}, function (result) {
+             if(result=="1"){
+
+                 $("#chenggong1").fadeIn();
+                 setTimeout("$('#chenggong1').fadeOut()",3000);
+//                 var htmlstring = compiled({"username":$("#yhm").});
+//
+//                 $("#quanbushuoshuo").append($(htmlstring));
+                    getpage(0);
+                 $(".pagination li:first").addClass("active");
+                 $(".pagination li:first").addClass("active").siblings().removeClass("active");
+             }
+             else if(result=="-1"||result=="-2"||result=="-3"){
+                 $("#cuowukuang5").fadeIn();
+                 setTimeout("$('#cuowukuang5').fadeOut()",3000);
+             }
+                else {
+                 document.querySelector("#cuowukuang6").innerHTML="发表失败，一个小时限发3条！请"+result+"分钟后再试！";
+                 $("#cuowukuang6").fadeIn();
+                 setTimeout("$('#cuowukuang6').fadeOut()",3000);
+             }
+            });
+
+        } });
+    $("input").focus(function(){
+        $("#cuowukuang").fadeOut();
+        $("#chenggong").fadeOut();
+        $("#cuowukuang1").fadeOut();
+        $("#cuowukuang2").fadeOut();
+        $("#cuowukuang3").fadeOut();
+        $("#cuowukuang4").fadeOut();
+        $("#cuowukuang5").fadeOut();
+        $("#chenggong1").fadeOut();
+    });
+    $("#shuoshuo").focus(function(){
+        $("#cuowukuang").fadeOut();
+        $("#chenggong").fadeOut();
+        $("#cuowukuang1").fadeOut();
+        $("#cuowukuang2").fadeOut();
+        $("#cuowukuang3").fadeOut();
+        $("#cuowukuang4").fadeOut();
+        $("#cuowukuang5").fadeOut();
+
+    });
+    $("#submit").click(function() {
+
+        if ($("#username").val() == "") {
+            $("#cuowukuang1").fadeIn();
+        }
+        else if ($("#password").val() == "") {
+            $("#cuowukuang2").fadeIn();
+        }
+        else {
+            $.ajax({
+                        "url": "/dologin",
+                        "type": "POST",
+                "data": {
+                    "username": $("#username").val(),
+                    "password": $("#password").val(),
+                    "yanzhengma": $("#yanzhengma").val().toString()
+                },
+                        "success": function (result, textStatus, request) {
+                            if (result == "-1") {
+
+                                document.querySelector("#yanzhengmaimg").src = "/scyanzhengma";
+                                $("#cuowukuang").fadeIn();
+                                $("#cuowukuang").html("用户名不存在");
+
+
+                            }
+                            if (result == "-3") {
+                                $("#cuowukuang").fadeIn();
+                                $("#cuowukuang").html("服务器错误");
+                                document.querySelector("#yanzhengmaimg").src = "/scyanzhengma";
+                            }
+                            if (result == "-2") {
+                                document.querySelector("#yanzhengmaimg").src = "/scyanzhengma";
+                                $("#cuowukuang").fadeIn();
+
+                                $("#cuowukuang").html("密码错误");
+
+                            }
+                            if (result == "-4") {
+                                $("#cuowukuang").fadeIn();
+                                $("#cuowukuang").html("验证码错误");
+
+
+                                document.querySelector("#yanzhengmaimg").src = "/scyanzhengma";
+
+
+                            }
+                            if (result == "1") {
+
+
+                                $("#chenggong").fadeIn();
+                                $("#chenggong").html("登录成功");
+//                                alert(request.getAllResponseHeaders().Cookie);
+//                                alert(textStatus);
+//                                localstorage.setItem("cookie", request.getResponseHeader('cookie'));
+                                setTimeout("window.location.href='/views/index1.html'", 1000);
+
+                            }
+                        }
+                    }
+            );
+        }
+    });
+//            $.post("/dologin", {
+//                "username": $("#username").val(),
+//                "password": $("#password").val(),
+//                "yanzhengma":$("#yanzhengma").val().toString()
+//            }, function (result) {
+//                //alert(result);
+//                if (result == "-1") {
+//
+//                    document.querySelector("#yanzhengmaimg").src="/scyanzhengma";
+//                    $("#cuowukuang").fadeIn();
+//                    $("#cuowukuang").html("用户名不存在");
+//
+//
+//                }
+//                if (result == "-3") {
+//                    $("#cuowukuang").fadeIn();
+//                    $("#cuowukuang").html("服务器错误");
+//                    document.querySelector("#yanzhengmaimg").src="/scyanzhengma";
+//                }
+//                if (result == "-2") {
+//                    document.querySelector("#yanzhengmaimg").src="/scyanzhengma";
+//                    $("#cuowukuang").fadeIn();
+//
+//                    $("#cuowukuang").html("密码错误");
+//
+//                }
+//                if (result == "-4") {
+//                    $("#cuowukuang").fadeIn();
+//                    $("#cuowukuang").html("验证码错误");
+//
+//
+//                    document.querySelector("#yanzhengmaimg").src="/scyanzhengma";
+//
+//
+//                }
+//                if (result.cookie!= "") {
+//
+//
+//                    $("#chenggong").fadeIn();
+//                    $("#chenggong").html("登录成功");
+//                    alert(result.cookie);
+//                    localstorage.setItem("cookie",result.cookie);
+//                    setTimeout("window.location.href='/views/index1.html'", 1000);
+//
+//                }
+//
+//
+//            });
+//        } });
+
+
+</script>
+</html>

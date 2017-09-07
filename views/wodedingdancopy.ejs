@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/animate.css">
+    <link rel="stylesheet" href="/css/jd_cart.css">
+    <link rel="icon" href="../../favicon.ico">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/jumbotron.css" rel="stylesheet">
+</head>
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/underscore.js"></script>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/gerenzhongxin"><span class="glyphicon glyphicon-menu-left"></span></a>
+            <a class="navbar-brand" href="/">班级说说</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" id="xingming"></a></li>
+                <li><a href="/views/dodiy.html">开始DIY</a></li>
+                <li><a href="/views/gouwucheindex.html">我的收藏</a></li>
+                <li><a href="/views/personinfo.html">个人中心</a></li>
+                <li><a href="/tuichu">退出登录</a></li>
+            </ul>
+        </div><!--/.navbar-collapse -->
+    </div>
+
+</nav>
+<div class="col-xm-12" align="center">
+<div  align="center" style="padding-left:30%">
+<ul  class="nav nav-pills" role="tablist">
+    <li role="presentation" class="active"><a href="#">全部订单<span class="badge">{{=length-1}}</span></a></li>
+    <li role="presentation"><a href="/views/daifukuandingdan"> 待付款<span class="badge">{{=length-1}}</span></a></li>
+    <li role="presentation" ><a href="/views/daifahuodingdan">待发货<span class="badge">{{=length-1}}</span></a></li>
+    <li role="presentation" ><a href="/views/daifahuodingdan">待收货<span class="badge">{{=length-1}}</span></a></li>
+    <li role="presentation" ><a href="/views/daipingjiadingdan">待评价<span class="badge">{{=length-1}}</span></a></li>
+    <li role="presentation" ><a href="/views/tuikuandingdan">退款<span class="badge">{{=length-1}}</span></a></li>
+
+</ul>
+</div>
+</div>
+<div align="center" style="background-color: white;margin-top: 10px" id="dingdandiv">
+
+    <%if(dingdan.length>1){%>
+    <%for(var i=1;i<dingdan.length;i++){%>
+    <div style="margin-bottom: 10px;border-bottom: 1px gainsboro solid">
+    <%for(var j=0;j<dingdan[i].dingdanshangpins.length;j++){%>
+    <a href="/dingdanxiangqing?dingdanbiaoshi=<%=dingdan[i].dingdanbiaoshi%>">
+        <div >
+            <!--<div class="thumbnail">-->
+            <!--<div class="thumbnail" style="width:600px">-->
+            <table >
+                <tr>
+                    <td style="width:120px;" > <img style="width:100px;height: 100px;" src="/diyimg/<%=username%>/<%=dingdan[i].dingdanshangpins[j].img%>"></td>
+                    <div id="imgbiaoshi"style="display:none;"><%=dingdan[i].dingdanshangpins[j].img%></div>
+                    <td style="width:74%;" align="left">  <span >
+                                    <h3><%=dingdan[i].dingdanshangpins[j].diyname%></h3>
+                                    <p><%=dingdan[i].dingdanshangpins[j].beizhu%></p>
+                                    <p><a href="javascript:void(0)"style="color: red">&yen;<%=dingdan[i].dingdanshangpins[j].danjia%></a> </p>
+                                  </span>
+                    </td>
+                    <td  ><span style="color:red;" >×&nbsp;<%=dingdan[i].dingdanshangpins[j].shuliang%></span></td>
+                    <div style="display:none;" id="shuliang"><%=dingdan[i].dingdanshangpins[j].shuliang%></div>
+                </tr>
+
+            </table>
+
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+        </div>
+    </a>
+
+<%}%>
+    <div ><span style="margin-left: 70%;">总价:<span id="zongjia" style="color:red"><%=dingdan[i].dingdanzongjia%></span>元</span></div>
+        <div class="row">
+    <div class="col-xs-11" align="right" style="padding-bottom: 5px;padding-top: 5px"><%if(dingdan[i].dingdanzhuangtai=="1"){%><button type="button" class="btn btn-default">提醒发货</button><%}%><%if(dingdan[i].dingdanzhuangtai=="2"){%><button type="button" class="btn btn-default">查看物流</button><%}%><%if(dingdan[i].dingdanzhuangtai=="2"){%><button type="button" class="btn btn-default"><span style="color: orange;
+    ">确认收货</span><%}%></button><%if(dingdan[i].dingdanzhuangtai=="3"){%><button type="button" class="btn btn-default"><span style="color:orange">评价</span></button><%}%></div>
+            <div class="col-xs-1"></div>
+        </div></div>
+        <%}%>
+    <%}else{%>
+    <h1>您暂时还没有<%=active%></h1>
+    <%}%>
+</div>
+<!--{{include 'scoreTemplate' $value}}-->
+<script type="text/template"id="moban">
+    {{ _.each(data, function(n){ }}
+    <div style="margin-bottom: 10px;border-bottom: 1px gainsboro solid">
+        {{ _.each(n.dingdanshangpins, function(sp){ }}
+        <a href="/dingdanxiangqing?dingdanbiaoshi={{=n.dingdanbiaoshi}}">
+            <div >
+                <!--<div class="thumbnail">-->
+                <!--<div class="thumbnail" style="width:600px">-->
+                <table >
+                    <tr>
+                        <td style="width:120px;" ><img style="width:100px;height: 100px;" src="/diyimg/{{=n.username}}/{{=sp.img}}"></td>
+                        <div id="imgbiaoshi"style="display:none;">{{=sp.img}}</div>
+                        <td style="width:74%;" align="left">  <span >
+                                    <h3>{{=sp.diyname}}</h3>
+                                    <p>{{=sp.beizhu}}</p>
+                                    <p><a href="javascript:void(0)"style="color: red">&yen;{{=sp.danjia}}</a> </p>
+                                  </span>
+                        </td>
+                        <td  ><span style="color:red;" >×&nbsp;{{=sp.shuliang}}</span></td>
+                        <div style="display:none;" id="shuliang">{{=sp.shuliang}}</div>
+                    </tr>
+
+                </table>
+
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+            </div>
+        </a>
+
+    <div ><span style="margin-left: 70%;">总价:<span id="zongjia" style="color:red">{{= n.dingdanzongjia}}</span>元</span></div>
+    <div class="row">
+        <div class="col-xs-11" align="right" style="padding-bottom: 5px;padding-top: 5px">{{if({{=n.dingdanzhuangtai}}=="1"){}}<button type="button" class="btn btn-default">提醒发货</button>{{>}}if(n.dingdanzhuangtai=="2"){%><button type="button" class="btn btn-default">查看物流</button>{{}}}{{if(n.dingdanzhuangtai=="2"){}}<button type="button" class="btn btn-default"><span style="color: orange;
+    ">确认收货</span>{{}}}</button>{{if({{=n.dingdanzhuangtai}}=="3"){}}<button type="button" class="btn btn-default"><span style="color:orange">评价</span></button>{{}}}</div>
+        <div class="col-xs-1"></div>
+    </div>
+        {{/each}}
+    </div>
+    {{/each}}
+</script>
+
+
+</body>
+<script>
+    $.get("/getinfo",function(result) {
+        var dataObj = eval("(" + result + ")");
+        document.querySelector("#xingming").innerHTML = "欢迎您，" + dataObj.username;
+
+    });
+
+    getpage();
+    function getpage() {
+        $("#xinxi").html("");
+        $.ajax({
+            "url": "/wodedingdan",
+            "type": "get",
+            "success": function (result) {
+
+                //组装模板
+                $('').append(_.template($('#tpl').html(), data));
+                var htmlstring = compiled(array);
+                $("#moban").append($(htmlstring));
+            }
+        });
+
+    }
+</script>
+</html>

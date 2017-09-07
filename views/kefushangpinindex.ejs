@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/underscore.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/jumbotron.css" rel="stylesheet">
+<body>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar-header">
+        　<!-- .navbar-toggle样式用于toggle收缩的内容，即nav-collapse collapse样式所在元素 -->
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#demo">
+            <span class="sr-only">Toggle Navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <!-- 确保无论是宽屏还是窄屏，navbar-brand都显示 -->
+        <!--<a href="##" class="navbar-brand">订单</a>-->
+    </div>
+    <!-- 屏幕宽度小于768px时，div.navbar-responsive-collapse容器里的内容都会隐藏，显示icon-bar图标，当点击icon-bar图标时，再展开。屏幕大于768px时，默认显示。 -->
+    <div class="collapse navbar-collapse navbar-responsive-collapse" id="demo">
+        <ul class="nav navbar-nav">
+            <li <%if(active=="1"){%> class="active" <%}%> role="presentation" ><a href="/kefugetonetypeshangpins?type=1">待审核商品<span class="badge"></span></a></li>
+            <li <%if(active=="2"){%> class="active" <%}%> role="presentation" ><a href="/kefugetonetypeshangpins?type=2">已上线商品<span class="badge"></span></a></li>
+            <li <%if(active=="3"){%> class="active" <%}%> role="presentation" ><a href="/kefugetonetypeshangpins?type=3">商品回收站<span class="badge"></span></a></li>
+        </ul>
+        <div  class="navbar-form navbar-left">
+            <div class="form-group">
+                <input style="width:350px" type="text" id="searchshangpinhao" class="form-control" placeholder="请输入商品号" />
+            </div>
+            <a onclick="getshangpinbyshangpinhao()" href="javascript:void(0)"><button   class="btn btn-default">查找商品</button></a>
+        </div>
+    </div>
+</div>
+<%if(shangpins.length>0){%>
+<%if(shangpins[0].shangpinzhuangtai=="1"){%>
+<div align="center"style="margin-top: 2%">
+    <a href="/kefuaddshangpinindex" ><button type="button" class="btn btn-primary">增加商品</button></a>
+</div>
+<%}%>
+<%}%>
+<%if(shangpins.length==0&&active=="1"){%>
+<div align="center"style="margin-top: 2%">
+    <a href="/kefuaddshangpinindex" ><button type="button" class="btn btn-primary">增加商品</button></a>
+</div>
+<%}%>
+<table style="margin-top: 2%" class="table table-bordered table-hover definewidth m10" >
+    <thead>
+
+    <tr>
+        <th>商品号</th>
+        <th>商品名称</th>
+        <th>商品单价</th>
+        <th>商品3d模型文件数</th>
+        <th>商品图片数</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <%for(var i=0;i<shangpins.length;i++){%>
+    <tr id="shangpin<%=i%>">
+        <td><%=shangpins[i].shangpinhao%></td>
+        <td><%=shangpins[i].shangpinname%></td>
+        <td><%=shangpins[i].shangpindanjia%></td>
+        <td><%=shangpins[i].moxingwenjiancount%></td>
+        <td><%=shangpins[i].shangpinpiccount%></td>
+        <td>
+            <%if(shangpins[i].shangpinzhuangtai=="1"){%>
+            <a  onclick="shenhe('<%=shangpins[i].shangpinhao%>',this.name)" name="#shangpin<%=i%>" href="javascript:void(0)">通过审核</a>
+            <%}%>
+            <a href="/kefushangpinxiangqingindex?shangpinhao=<%=shangpins[i].shangpinhao%>">查看详情</a>
+            <a href="/shangpin3Dyulan?shangpinhao=<%=shangpins[i].shangpinhao%>">3D预览</a>
+            <%if(shangpins[i].shangpinzhuangtai!="3"){%>
+            <a onclick="kefushangpindelete('<%=shangpins[i].shangpinhao%>',this.name)" name="#shangpin<%=i%>" href="javascript:void(0)">删除</a>
+            <%}else{%>
+            <a onclick="kefurealdeleteshangpin('<%=shangpins[i].shangpinhao%>','#shangpin<%=i%>')" href="javascript:void(0)">彻底删除</a>
+            <%}%>
+        </td>
+    </tr>
+    <%}%>
+</table>
+
+
+
+
+</body>
+<script>
+    function kefurealdeleteshangpin(a,b)
+    {
+        if(a!=undefined&&a!="")
+        {
+            $.ajax({
+                type: "get",
+                url: "/kefurealdeleteshangpin?shangpinhao=" + a
+            }).success(function (result) {
+                if (result == "-1") {
+                    alert("不存在此商品");
+
+                }
+                else if (result == "1") {
+                    $(b).remove();
+                }
+                else {
+                    alert(result);
+                }
+            }).fail(function (msg) {
+
+                console.log(msg);
+            });
+        }
+    }
+var limitrepeatsubmit=0;
+var limitrepeatsubmit1=0;
+function shenhe(a,b)
+{
+if(limitrepeatsubmit==0)
+{
+limitrepeatsubmit=1;
+$.ajax({
+type: "get",
+url: "/kefushangpinshenhe?shangpinhao="+a
+}).success(function (msg) {
+if (msg == "-1")
+{
+alert("操作失败");
+limitrepeatsubmit = 0;
+}
+if(msg=="1")
+{
+$(b).remove();
+limitrepeatsubmit = 0;
+}
+
+}).fail(function (msg) {
+limitrepeatsubmit = 0;
+console.log(msg);
+});
+
+}
+}
+function kefushangpindelete(a,b)
+{
+    if(limitrepeatsubmit1==0)
+    {
+        limitrepeatsubmit1=1;
+        $.ajax({
+            type: "get",
+            url: "/kefushangpindelete?shangpinhao="+a,
+        }).success(function (msg) {
+            if (msg == "-1")
+            {
+                alert("操作失败");
+                limitrepeatsubmit1= 0;
+            }
+            if(msg=="1")
+            {
+                $(b).remove();
+                limitrepeatsubmit1 = 0;
+            }
+
+        }).fail(function (msg) {
+            limitrepeatsubmit1 = 0;
+            console.log(msg);
+        });
+
+    }
+}
+function getshangpinbyshangpinhao() {
+    var shangpinhao = $.trim($("#searchshangpinhao").val());
+    if (shangpinhao != "" && shangpinhao != undefined) {
+        $.ajax({
+            type: "get",
+            url: "/getshangpinbyshangpinhao?shangpinhao="+shangpinhao,
+        }).success(function (result) {
+            if (result == "-1") {
+                alert("不存在此商品");
+
+            }
+            else if(result=="1")
+            {
+                window.location.href='/getshangpinbyshangpinhao1?shangpinhao='+shangpinhao;
+            }
+            else{
+                alert(result);
+            }
+        }).fail(function (msg) {
+
+            console.log(msg);
+        });
+    }
+    else{
+        return;
+    }
+}
+
+</script>
+</html>

@@ -1,0 +1,289 @@
+<script>
+    history.go(1);
+</script>
+<!DOCTYPE html>
+<html lang="en">
+<html>
+
+<head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <link rel="icon" href="../../favicon.ico">
+</head>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="/css/jumbotron.css" rel="stylesheet">
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/underscore.js"></script>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">班级说说</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" id="xingming"></a></li>
+                <li><a href="/views/dodiy.html">开始DIY</a></li>
+                <li><a href="/views/gouwucheindex.html">我的收藏</a></li>
+                <li><a href="/views/personinfo.html">个人中心</a></li>
+                <li><a href="/tuichu">退出登录</a></li>
+            </ul>
+        </div><!--/.navbar-collapse -->
+    </div>
+
+</nav>
+
+<div align="center" style="position: relative;" id="youdizhi">
+</div>
+<script type="text/template"id="moban1">
+    <div id="dizhizhuangtai" tyle="display: none">{{=length}}</div>
+        <a href="/dizhiguanli">
+            <div style="margin-top: 1%;margin-left:25%;width: 50%;height:20% " align="center;position: absolute" class="col-md-6 grid">
+                <div class="thumbnail" style="width: 95%;height: 100%">
+                    <div style="display:none;">{{=biaoshi}}</div>
+                    <address >
+            <span  style="margin-left:0px">
+            <strong>{{=name}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;手机号：{{=dianhua}}<br>
+            <br/>
+            <br/>
+                </span>
+
+                    </address>
+                    <div style="position:absolute;top:40%;left:91%" class="glyphicon glyphicon-menu-right" aria-hidden="true"></div>
+                    <div style="position:absolute;top:40%;left:9%" class="glyphicon glyphicon-map-marker" aria-hidden="true"></div>
+                    <div style="height: 50px;" >
+                        <div style="float: left">
+
+                        </div>
+                        <div style="float: left;margin-left: 30%">
+                            {{=pro}}{{=city}}{{=area}}{{=jutidizhi}}
+                        </div>
+
+                        <div style="float: right;position:absolute;left:94%;top:35%" >
+                            <!--<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>-->
+                        </div>
+
+                    </div>
+                </div>
+                <div id="dizhibiaoshi"style=" display: none;" id="biaoshi{{=i}}" role="alert">{{=biaoshi}}</div>
+            </div>
+        </a>
+</script>
+
+<div align="center" style="position: relative;display: none" id="wudizhi" >
+<a href="/dizhiguanli">
+    <div style="margin-top: 1%;margin-left:25%;width: 50%;height:20% " align="center;position: absolute" class="col-md-6 grid">
+        <div class="thumbnail" style="width: 95%;height: 100%">
+
+            <address >
+
+                <strong>填写地址</strong>
+
+            </address>
+            <div style="position:absolute;top:40%;left:9%" class="glyphicon glyphicon-map-marker" aria-hidden="true"></div>
+
+        </div>
+    </div>
+</a>
+</div>
+
+
+<div style="position: absolute;left: 27.5%;top: 35%;">商品清单:</div>
+<div style="position: absolute;left: 27.5%;top: 38%;" id="shangpinqingdan">
+</div>
+<script type="text/template"id="moban2">
+    <div class="shangpin" style="width:100%;border-bottom: 1px gainsboro solid;">
+        <!--<div class="thumbnail">-->
+        <table >
+            <tr>
+                <td style="width:120px;" > <img style="width:100px;height: 100px;" src="/diyimg/{{=username}}/{{=img}}"></td>
+                <div id="diybiaoshi"style="display:none;">{{=diybiaoshi}}</div>
+                <td style="width:74%;" align="left">  <span >
+                                    <h3>{{=diyname}}</h3>
+                                    <p>{{=beizhu}}</p>
+                                    <p><a href="javascript:void(0)"style="color: red">&yen;{{=danjia}}</a> </p>
+                                  </span>
+                </td>
+                <td  ><span style="color:red;" >×&nbsp;{{=shuliang}}</span></td>
+                <div style="display:none;" id="shuliang">{{=shuliang}}</div>
+            </tr>
+
+        </table>
+
+    </div>
+
+</script>
+<div style="height: 60px"></div>
+</div>
+
+
+<div style="width:100%;height: 7.5%;position: fixed; bottom:0;margin-bottom:0.5px;background: white;border: 1px;-webkit-box-shadow:0 0 10px #B3B3B3;
+  -moz-box-shadow:0 0 10px #B3B3B3;
+  box-shadow:0 0 10px #B3B3B3;" id="zongjiadiv">
+
+</div>
+<script type="text/template"id="moban3">
+<span style="margin-left: 70%;">总价:<span id="zongjia" style="color:red">{{=zongjia}}</span>元</span>
+<a href="javascript:void(0)" onclick="goumai()" style=" color:white;  text-align:center;margin-top:5px;font-size:25px;"><div  style="float: right;width:15%;height:100%;background: #DC143C" >
+    确认购买
+</div></a>
+</script>
+<script>
+    var compiled1 = _.template($("#moban1").html());
+    var compiled2 = _.template($("#moban2").html());
+    var compiled3 = _.template($("#moban3").html());
+    getpage();
+    function getpage() {
+//          var $quanbushuoshuo = $("#quanbushuoshuo");
+        $("#youdizhi").html("");
+
+//          var compiled = _.template($("#moban").html());
+//        alert(username);
+        $.ajax({
+            "url": "/dizhiguanli",
+            "type": "get",
+            "success": function (result) {
+
+                     if(result.result.length==1)
+                     {
+                         $("#wudizhi").css("display","block");
+                         $("#youdizhi").css("display","none");
+                     }
+                     else
+                     {
+                         //组装模板
+                         result.result[1].i=1;
+                         var htmlstring = compiled1(result.result[1]);
+
+                         $("#youdizhi").append($(htmlstring));
+
+                     }
+                }
+
+
+
+        });
+
+    }
+    getpage1();
+    function getpage1() {
+//          var $quanbushuoshuo = $("#quanbushuoshuo");
+        $("#shangpinqingdan").html("");
+        $.ajax({
+            "url": "/showdingdan",
+            "type": "get",
+            "success": function (result) {
+
+                for(var i=0;i<result.shangpins.length;i++)
+                {
+
+
+                    result.shangpins[i].username=result.username;
+                    //组装模板
+                    var htmlstring = compiled2(result.shangpins[i]);
+                    $("#shangpinqingdan").append($(htmlstring));
+                }
+
+            }
+
+
+
+        });
+
+    }
+    getpage2();
+    function getpage2() {
+//          var $quanbushuoshuo = $("#quanbushuoshuo");
+        $("#zongjiadiv").html("");
+        $.ajax({
+            "url": "/getzongjia",
+            "type": "get",
+            "success": function (result) {
+
+
+                    //组装模板
+                    var htmlstring = compiled3(result);
+                    $("#zongjiadiv").append($(htmlstring));
+
+
+            }
+
+
+
+        });
+
+    }
+    $.get("/getinfo",function(result) {
+//        alert(result);
+        var dataObj = eval("(" + result + ")");
+//        alert(dataObj.avatar);
+//        document.querySelector("#touxiang").src = "/avatar/" + dataObj.avatar;
+//        alert(document.querySelector("#touxiang").src);
+        document.querySelector("#xingming").innerHTML = "欢迎您，" + dataObj.username;
+
+    });
+
+var limitrepeatsubmit=0;
+    function goumai() {
+        var dizhizhuangtai=document.querySelector("#dizhizhuangtai").innerHTML;
+        if(dizhizhuangtai!="1") {
+            var shangpins = new Array();
+            var objs = document.querySelectorAll(".shangpin");
+
+            var dizhibiaoshi = document.querySelector("#dizhibiaoshi").innerHTML.toString();
+            for (var i = 0; i < objs.length; i++) {
+
+
+                var diybiaoshi = objs[i].querySelector("#diybiaoshi").innerHTML.toString();
+                shangpins.push({
+                    "img": diybiaoshi,
+                    "shuliang": objs[i].querySelector("#shuliang").innerHTML.toString()
+                });
+
+            }
+            var shangpins1 = JSON.stringify(shangpins);
+            if (limitrepeatsubmit == 0) {
+
+                limitrepeatsubmit == 1;
+                $.post("/goumai", {
+                    "shangpins": shangpins1,
+                    "zongjia": document.querySelector("#zongjia").innerHTML,
+                    "dizhibiaoshi": dizhibiaoshi,
+                }, function (result) {
+                    if (result == "1") {
+                        window.location.href = "/views/aftersuccesspay.html";
+                    }
+                    else {
+                        alert("购买失败");
+                        window.location.href = "/views/gouwucheindex.html";
+                    }
+                })
+            }
+        }
+        else{
+            alert("请填写收货地址");
+        }
+    }
+    if(window.name!="hasLoad"){
+        location.reload();
+        window.name = "hasLoad";
+    }else{
+        window.name="";
+    }
+
+</script>
+</body>
+</html>
+</body>
+</html>
