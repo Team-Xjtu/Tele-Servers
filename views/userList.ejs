@@ -2,9 +2,43 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>用户列表</title>
 </head>
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/underscore.js"></script>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/jumbotron.css" rel="stylesheet">
 <body>
-
+    <table style="margin-top: 2%" class="table table-bordered table-hover definewidth m10" >
+        <thead>
+            <tr>
+                <th>用户编号</th>
+                <th>用户名称</th>
+                <th>用户密码</th>
+                <th>用户邮箱</th>
+            </tr>
+        </thead>
+            <%for(var i=0; i<users.length; i++){%>
+            <tr id="user<%=i%>">
+                <td><%=users[i].uuid%></td>
+                <td><%=users[i].username%></td>
+                <td><%=users[i].password%></td>
+                <td><%=users[i].email%></td>
+                <!--<td>-->
+                    <!--<%if(users[i].shangpinzhuangtai=="1"){%>-->
+                    <!--<a  onclick="shenhe('<%=users[i].shangpinhao%>',this.name)" name="#users<%=i%>" href="javascript:void(0)">通过审核</a>-->
+                    <!--<%}%>-->
+                    <!--<a href="/kefushangpinxiangqingindex?shangpinhao=<%=shangpins[i].shangpinhao%>">查看详情</a>-->
+                    <!--<a href="/shangpin3Dyulan?shangpinhao=<%=shangpins[i].shangpinhao%>">3D预览</a>-->
+                    <!--<%if(shangpins[i].shangpinzhuangtai!="3"){%>-->
+                    <!--<a onclick="kefushangpindelete('<%=shangpins[i].shangpinhao%>',this.name)" name="#shangpin<%=i%>" href="javascript:void(0)">删除</a>-->
+                    <!--<%}else{%>-->
+                    <!--<a onclick="kefurealdeleteshangpin('<%=shangpins[i].shangpinhao%>','#shangpin<%=i%>')" href="javascript:void(0)">彻底删除</a>-->
+                    <!--<%}%>-->
+                <!--</td>-->
+            </tr>
+            <%}%>
+    </table>
 </body>
 </html>

@@ -3888,3 +3888,11 @@ exports.piliangcaozuozizhi=function(req,res) {
         }
     })
 }
+
+//管理用户信息
+exports.userList = function(req,res) {
+    db.find("user", {}, function (err, result) {
+        console.log(result);
+        res.render("userList",{"users":result});
+    })
+};

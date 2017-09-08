@@ -82,6 +82,9 @@ app.post("/adddiy",router.adddiy);
 app.get("/getgouwuche",router.getgouwuche);
 app.get("/checkbox",router.checkbox);
 
+//管理用户信息
+app.get("/userList",router.userList);
+
 //普通用户有关订单的操作
 app.post("/createdingdan",router.createdingdan);
 app.get("/showdingdan",router.showdingdan);
