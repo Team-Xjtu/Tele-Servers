@@ -304,6 +304,7 @@
                var youfei=input5.value;
                var shangpinhao= document.querySelector("#shangpinhao").innerHTML;
                var tuijianji=parseInt(input7.value);
+               alert("pics:"+pics);
                form_data.append("shangpinname", shangpinname);
                form_data.append("shangpindanjia", shangpindanjia);
                form_data.append("shangpinjieshao", shangpinjieshao);
@@ -334,7 +335,7 @@
                    crossDomain: true, // 如果用到跨域，需要后台开启CORS
                    processData: false,  // 注意：不要 process data
                    contentType: false,  // 注意：不设置 contentType
-                   data: form_data,
+                   data: form_data
                }).success(function (msg) {
                    if (msg == "1") {
                        window.location.href="/kefushangpinxiangqingindex";

@@ -770,7 +770,13 @@ exports.adddizhi=function(req,res){
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
         //得到表单之后做的事情
-        if(fields.name!=undefined&&fields.name!=""&&fields.dianhua!=undefined&&fields.dianhua!=""&&fields.pro!=undefined&&fields.pro!=""&&fields.city!=undefined&&fields.city!=""&&fields.area!=undefined&&fields.area!=""&&fields.jutidizhi!=undefined&&fields.jutidizhi!=""&&fields.jutidizhi.length>5) {
+        console.log(fields.name);
+        console.log(fields.dianhua);
+        console.log(fields.pro);
+        console.log(fields.city);
+        console.log(fields.area);
+        console.log(fields.jutidizhi);
+        if(fields.name!=undefined&&fields.name!=""&&fields.dianhua!=undefined&&fields.dianhua!=""&&fields.pro!=undefined&&fields.pro!=""&&fields.city!=undefined&&fields.city!=""&&fields.area!=undefined&&fields.jutidizhi!=undefined&&fields.jutidizhi!=""&&fields.jutidizhi.length>5) {
             db.find("user", {"username": req.session.username}, function (err, result) {
                 if (err) {
                     console.log(err);
@@ -1104,6 +1110,7 @@ exports.adddiy=function(req,res){
         res.send("非法闯入啦，请登录！");
         return;
     }
+    console.log("adddiy");
     var form=new formidable.IncomingForm();
     form.keepExtensions = true;
     form.parse(req,function(err,fields,files) {
@@ -1220,7 +1227,7 @@ exports.shanchudiy=function(req,res){
         res.send("非法闯入啦，请登录!");
         return;
     }
-    var diybiaoshi = req.query.diybiaoshi;
+    var diybiaoshi = req.query.diybiaoshi.split(",");
     if(typeof diybiaoshi == undefined) {
         res.send("参数不存在");
         return;
@@ -1234,8 +1241,10 @@ exports.shanchudiy=function(req,res){
         }
         var diy = result[0].diy;
         for(var i = 1; i < diy.length; i++){
-            if(diy[i].diybiaoshi == diybiaoshi){
-                diy.splice(i,1);
+            for(var j = 0; j < diybiaoshi.length; j++){
+                if(diy[i].diybiaoshi == diybiaoshi[j]){
+                    diy.splice(i,1);
+                }
             }
         }
         db.updateMany("user",{"username":req.session.username},{$set:{"diy":diy}},function(err1,result1){
@@ -1310,7 +1319,6 @@ exports.createdingdan=function(req,res){
                 if(result.length>0) {
                     var diy = result[0].diy;
                     if(shangpins.length!==0) {
-                        console.log("前台传来的数组长度为"+shangpins.length);
                         for (var i = 0; i < shangpins.length; i++) {
                             for (var j = 1; j < diy.length; j++) {
                                 if (parseInt(shangpins[i].shuliang) > 9999999) {
@@ -1364,7 +1372,8 @@ exports.showdingdan=function(req,res) {
             }
             res.json({
                 "username": req.session.username,
-                "shangpins": arraydingdan
+                "shangpins": arraydingdan,
+                "zongjia": zongjiadingdan
             })
         })
     }else{
@@ -1574,7 +1583,7 @@ exports.getdingdaninfo=function(req,res) {
                 "chuangjiantime":thelatestdingdan.chuangjiantime,
                 "dingdanzongjia":thelatestdingdan.dingdanzongjia,
                 "dingdanshangpins":dingdanshangpins,
-                "digndandizhi":thelatestdingdan.digndandizhi
+                "dingdandizhi":thelatestdingdan.dingdandizhi
             }
         );
     })
@@ -1924,8 +1933,6 @@ exports.addshangpin=function(req,res) {
         var lujing3d="/shangpin/"+shangpinhao+"/moxingwenjian/";
         iterator(0);
         function iterator(i){
-
-
             console.log("商品号:"+shangpinhao);
             console.log(i);
             console.log(piccount);
@@ -2135,15 +2142,10 @@ exports.addshangpin=function(req,res) {
                                 iterator(i + 1);
                             }
                         })
-
-
                     });
-
             }
         }
-
-
-})
+    })
 }
 exports.getshangpins= function(req,res) {
     db.find("shangpin",{"shangpinzhuangtai":"2"},function(err,result)
@@ -2283,7 +2285,7 @@ exports.getkefuxiugaishangpin= function(req,res) {
                 file3darray.push(moxingwenjian5);
                 file3darray.push(moxingwenjian6);
 
-                console.log("修改商品:"+filearray.length);
+                console.log("修改商品:" + filearray.length);
                 var shangpinname = fields.shangpinname;
                 var shangpindanjia = fields.shangpindanjia;
                 var shangpinjieshao = fields.shangpinjieshao;
@@ -2310,8 +2312,6 @@ exports.getkefuxiugaishangpin= function(req,res) {
                         var time = xiugaitime1.getFullYear() + "年" + (xiugaitime1.getMonth() + 1) + "月" + xiugaitime1.getDate() + "日" + xiugaitime1.getHours() + "时" + xiugaitime1.getMinutes() + "分" + xiugaitime1.getSeconds() + "秒";
                         iterator(0);
                         function iterator(i) {
-
-                            console.log("修改:" + i);
                             if ((i == parseInt(piccount) && flag3d == parseInt(moxingwenjiancount1)) || (i == parseInt(piccount) + 1 && flag3d == parseInt(moxingwenjiancount1))) {
                                 res.send("1");
                                 return;
@@ -2331,7 +2331,6 @@ exports.getkefuxiugaishangpin= function(req,res) {
                                         res.send("-1");
                                         return;
                                     }
-
                                     gm(newpath).resize(200, 200).write(newpath, function (err) {
                                         if (err) {
                                             res.send("-1");
@@ -2340,7 +2339,6 @@ exports.getkefuxiugaishangpin= function(req,res) {
                                             return;
                                         }
                                         if (i == parseInt(piccount) - 1) {
-
                                             iterator1(0);
                                             function iterator1(j) {
                                                 if (j == parseInt(moxingwenjiancount1)) {
@@ -2394,14 +2392,10 @@ exports.getkefuxiugaishangpin= function(req,res) {
                                                     })
                                                 }
                                             }
-
-
                                         } else {
                                             iterator(i + 1);
                                         }
                                     })
-
-
                                 });
                             }
                             else if (i == parseInt(piccount) && i == 0) {
@@ -2471,7 +2465,6 @@ exports.getkefuxiugaishangpin= function(req,res) {
             }
 
         })
-
     }
 exports.getshangpinbyshangpinhao = function (req, res) {
     if(req.query!=undefined)
@@ -3455,8 +3448,6 @@ exports.kefugetonetypeshangpins=function(req,res) {
     } else{
         res.send("-1");
     }
-
-
 }
 exports.kefuaddshangpinindex= function(req,res) {
     res.render("kefuaddshangpin");
@@ -3555,14 +3546,12 @@ exports.kefushangpinshenhe= function(req,res) {
                     return;
                 }
                     res.send("1");
-
             })
 
         }
     } else{
         res.send("-1");
     }
-
 }
 
 exports.kefushangpindelete= function(req,res) {
