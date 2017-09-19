@@ -747,7 +747,7 @@ exports.dizhiguanli=function(req,res){
           res.json({"result":result[0].dizhi});
 
     })
-}
+};
 //exports.tianjiadizhi=function(req,res){
 //    if(req.session.login!="1"){
 //        res.send("非法闯入啦，请登录！");
@@ -766,7 +766,7 @@ exports.adddizhi=function(req,res){
         res.send("非法闯入啦，请登录！");
         return;
     }
-    console.log("wolaile");
+    console.log("wolaile,adddizhi");
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
         //得到表单之后做的事情
@@ -807,11 +807,7 @@ exports.adddizhi=function(req,res){
         else{
             res.send("-1");
         }
-            });
-
-
-
-
+    });
 }
 exports.shanchudizhi=function(req,res){
     if(req.session.login!="1"){
@@ -895,7 +891,7 @@ var biaoshi=req.query.biaoshi;
         }
 
         console.log("修改地址的省份:"+dizhi[index]);
-          console.log("修改地址的省份:"+dizhi[index].pro);
+        console.log("修改地址的省份:"+dizhi[index].pro);
         //    res.render("xiugaidizhi",{"login":req.session.login=="1" ? true:false,
         //            "username":req.session.login=="1"?req.session.username:"",
         //"name":dizhi[index].name,
@@ -937,9 +933,6 @@ exports.xiugaidizhi=function(req,res){
                     break;
                 }
             }
-
-
-
             db.updateMany("user",{"username":req.session.username},{$set:{"dizhi":dizhi}},function(err,result1){
                 if(err){
                     console.log(err);
@@ -974,9 +967,6 @@ exports.morendizhi=function(req,res){
                 break;
             }
         }
-
-
-
         db.updateMany("user",{"username":req.session.username},{$set:{"dizhi":dizhi}},function(err,result1){
             if(err){
                 console.log(err);
@@ -1210,7 +1200,6 @@ exports.adddiy=function(req,res){
                         )
                     })
 
-
                    }
               else{
             res.send("-1");
@@ -1226,6 +1215,40 @@ exports.adddiy=function(req,res){
            }
 })
 }
+exports.shanchudiy=function(req,res){
+    if(req.session.login!="1"){
+        res.send("非法闯入啦，请登录!");
+        return;
+    }
+    var diybiaoshi = req.query.diybiaoshi;
+    if(typeof diybiaoshi == undefined) {
+        res.send("参数不存在");
+        return;
+    }
+    console.log("diybiaoshi：" + diybiaoshi);
+    db.find("user", {"username":req.session.username}, function(err,result){
+        if(err){
+            console.log(err);
+            res.send("-1");
+            return;
+        }
+        var diy = result[0].diy;
+        for(var i = 1; i < diy.length; i++){
+            if(diy[i].diybiaoshi == diybiaoshi){
+                diy.splice(i,1);
+            }
+        }
+        db.updateMany("user",{"username":req.session.username},{$set:{"diy":diy}},function(err1,result1){
+            if(err1){
+                console.log(err1);
+                res.send("-1");
+                return;
+            }
+            console.log("shanchudiy success");
+            res.send("1");
+        })
+    })
+};
 exports.getgouwuche=function(req,res){
     if(req.session.login!="1"){
         res.send("非法闯入啦，请登录！");
@@ -1286,23 +1309,16 @@ exports.createdingdan=function(req,res){
                 }
                 if(result.length>0) {
                     var diy = result[0].diy;
-                    //console.log("此用户已有diy数量为"+diy.length);
                     if(shangpins.length!==0) {
-                        //console.log("前台传来的数组长度为"+shangpins.length);
+                        console.log("前台传来的数组长度为"+shangpins.length);
                         for (var i = 0; i < shangpins.length; i++) {
                             for (var j = 1; j < diy.length; j++) {
                                 if (parseInt(shangpins[i].shuliang) > 9999999) {
                                     res.send("-3");
                                     return;
                                 }
-                                //console.log("前台的img值为"+shangpins[i].img);
-                                //console.log("前台的数量值为"+shangpins[i].shuliang);
-                                //console.log("后台的img值的形式为"+diy[1].img);
-                                console.log("diybiaoshi：" + diy[j].diybiaoshi);
-                                console.log("shangpindiybiaoshi：" + shangpins[i].diybiaoshi);
                                 if (diy[j].diybiaoshi == shangpins[i].diybiaoshi) {
                                     diy[j].shuliang = shangpins[i].shuliang;
-                                    //console.log("相等时的序号:"+j);
                                     arraydingdan.push(diy[j]);
                                 }
                             }
@@ -1313,6 +1329,7 @@ exports.createdingdan=function(req,res){
                         }
                         dizhidingdan = result[0].dizhi;
                         zongjiadingdan = fields.zongjia;
+                        console.log("立即下单");
                         res.send("1");
                     }else{
                         res.send("-5");
@@ -1320,14 +1337,10 @@ exports.createdingdan=function(req,res){
                     }
                 }
             })
-        }
-        else{
+        }else{
             res.send("-6");
         }
-        })
-
-
-
+    })
 }
 exports.getzongjia=function(req,res) {
     if (req.session.login != "1") {
@@ -1341,28 +1354,23 @@ exports.showdingdan=function(req,res) {
         res.send("非法闯入啦，请登录！");
         return;
     }
-	console.log(arraydingdan.length);
-      if(arraydingdan.length!=0) {
-          db.find("user", {"username": req.session.username}, function (err, result) {
-              if (err) {
-                  console.log(err);
-                  res.send("-1");
-                  return;
-              }
-              res.json({
-                  "username": req.session.username,
-
-                  "shangpins": arraydingdan
-
-              })
-          })
-      }else{
-          res.send("-1");
-      }
-
-
-
-}
+	console.log("arraydingdan.length: "+arraydingdan.length);
+    if(arraydingdan.length !== 0) {
+        db.find("user", {"username": req.session.username}, function (err, result) {
+            if (err) {
+                console.log(err);
+                res.send("-1");
+                return;
+            }
+            res.json({
+                "username": req.session.username,
+                "shangpins": arraydingdan
+            })
+        })
+    }else{
+        res.send("-1");
+    }
+};
 var arraydingdan1=new Array();
 var zongjiadingdan1;
 var dizhidingdan1=new Array();
@@ -1372,168 +1380,141 @@ exports.goumai=function(req,res){
         res.send("非法闯入啦，请登录！");
         return;
     }
-    //console.log(arraydingdan1.length);
     dizhidingdan1=[];
     arraydingdan1=[];
-    console.log("goumai:"+arraydingdan1.length);
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
         //得到表单之后做的事情
-	console.log("fields.shangpins:"+fields.shangpins);
-        console.log("fields.shangpins:"+fields.dizhibiaoshi);
-		if(fields.shangpins!=undefined&&fields.shangpins!=""&&fields.dizhibiaoshi!=undefined&&fields.dizhibiaoshi!="") {
+        if(fields.shangpins!=undefined&&fields.shangpins!=""&&fields.dizhibiaoshi!=undefined&&fields.dizhibiaoshi!="") {
             var shangpins = eval(fields.shangpins);
-			console.log("goumai:"+shangpins.length);
-            if(shangpins.length==0)
-            {
+            console.log("shangpins.length:"+shangpins.length);
+            if(shangpins.length==0) {
                 res.send("-1");
                 return;
             }
-        db.find("user", {"username": req.session.username}, function (err, result) {
-            if (err) {
-                console.log(err);
-                res.send("-1");
-                return;
-            }
-            console.log("进来啦");
-            var diy = result[0].diy;
-            //console.log("此用户已有diy数量为"+diy.length);
-            var flag1=0;
-            //console.log("前台传来的数组长度为"+shangpins.length);
-            for (var i = 0; i < shangpins.length; i++) {
-                for (var j = 1; j < diy.length; j++) {
-                    //console.log("前台的img值为"+shangpins[i].img);
-                    console.log("diy[j].diybiaoshi"+diy[j].diybiaoshi);
-                    console.log("shangpins[i].diybiaoshi"+shangpins[i].diybiaoshi);
-                    if (diy[j].diybiaoshi == shangpins[i].diybiaoshi) {
-                        flag1=1;
-                        diy[j].shuliang = shangpins[i].shuliang;
-                        //console.log("相等时的序号:"+j);
-                        arraydingdan1.push(diy[j]);
-                    }
-                }
-                if(flag1!=1)
-                {
-                    res.send("-1");
-                    return;
-                }
-                flag1=0;
-            }
-          if(arraydingdan1.length!=arraydingdan.length)
-          {
-              res.send("-1");
-              return;
-          }
             db.find("user", {"username": req.session.username}, function (err, result) {
                 if (err) {
                     console.log(err);
                     res.send("-1");
                     return;
                 }
-                var dizhi = result[0].dizhi;
-                var flag=0;
-                for (var i = 0; i < dizhi.length; i++) {
-                    if (dizhi[i].biaoshi == fields.dizhibiaoshi) {
-                        dizhijson = dizhi[i];
-                        flag=1;
-                        break;
+                console.log("进入购买");
+                var diy = result[0].diy;
+                var flag1=0;
+                for (var i = 0; i < shangpins.length; i++) {
+                    for (var j = 1; j < diy.length; j++) {
+                        if (diy[j].diybiaoshi == shangpins[i].diybiaoshi) {
+                            flag1=1;
+                            diy[j].shuliang = shangpins[i].shuliang;
+                            arraydingdan1.push(diy[j]);
+                        }
                     }
+                    if(flag1!=1) {
+                        res.send("-1");
+                        return;
+                    }
+                    flag1=0;
                 }
-                if(flag!=1)
-                {
+                if(arraydingdan1.length != arraydingdan.length) {
                     res.send("-1");
                     return;
                 }
-                dizhijson.dizhi = "" + dizhijson.pro + dizhijson.city + dizhijson.area + dizhijson.jutidizhi;
-                zongjiadingdan1 = fields.zongjia;
-                var xiugaitime1 = new Date();
-
-                var time = "" + xiugaitime1.getFullYear() + "年" + (xiugaitime1.getMonth() + 1) + "月" + xiugaitime1.getDate() + "日" + xiugaitime1.getHours() + "时" + xiugaitime1.getMinutes() + "分" + xiugaitime1.getSeconds() + "秒";
-                var str = "";
-                for (var i = 0; i < req.session.username.length; i++) {
-                    str = str + req.session.username.charAt(i).charCodeAt();
-                }
-                var dingdanbiaoshi = str + xiugaitime1.getFullYear() + xiugaitime1.getMonth() + xiugaitime1.getDay() + xiugaitime1.getHours() + xiugaitime1.getMinutes() + xiugaitime1.getSeconds() + xiugaitime1.getMilliseconds();
-                db.insertOne("dingdans", {
-                    "dingdanbiaoshi": dingdanbiaoshi,
-                    "date": xiugaitime1,
-                    "chuangjiantime": time,
-                    "dingdanowner": req.session.username,
-                    "dingdanzongjia": fields.zongjia,
-                    "dingdanshangpins": JSON.stringify(arraydingdan1),
-                    "dingdanzhuangtai": "1",
-                    "dingdandizhi": dizhijson,
-                    "fahuoshijian": "",
-                    "wuliuhaoma": "",
-                    "wuliuxinxi": "",
-                    "shouhuoshijian": "",
-                    "dingdanxinxixiugaijilu": [""]
-                }, function (err, result) {
+                db.find("user", {"username": req.session.username}, function (err, result) {
                     if (err) {
-
                         console.log(err);
                         res.send("-1");
                         return;
                     }
-                    console.log("订单创建成功啦");
-                    db.find("user", {"username": req.session.username}, function (err, result1) {
+                    var dizhi = result[0].dizhi;
+                    var flag=0;
+                    for (var i = 0; i < dizhi.length; i++) {
+                        if (dizhi[i].biaoshi == fields.dizhibiaoshi) {
+                            dizhijson = dizhi[i];
+                            flag=1;
+                            break;
+                        }
+                    }
+                    if(flag!=1) {
+                        res.send("-1");
+                        return;
+                    }
+                    dizhijson.dizhi = "" + dizhijson.pro + dizhijson.city + dizhijson.area + dizhijson.jutidizhi;
+                    zongjiadingdan1 = fields.zongjia;
+                    var xiugaitime1 = new Date();
+                    var time = "" + xiugaitime1.getFullYear() + "年" + (xiugaitime1.getMonth() + 1) + "月" + xiugaitime1.getDate() + "日" + xiugaitime1.getHours() + "时" + xiugaitime1.getMinutes() + "分" + xiugaitime1.getSeconds() + "秒";
+                    var str = "";
+                    for (var i = 0; i < req.session.username.length; i++) {
+                        str = str + req.session.username.charAt(i).charCodeAt();
+                    }
+                    var dingdanbiaoshi = str + xiugaitime1.getFullYear() + xiugaitime1.getMonth() + xiugaitime1.getDay() + xiugaitime1.getHours() + xiugaitime1.getMinutes() + xiugaitime1.getSeconds() + xiugaitime1.getMilliseconds();
+                    db.insertOne("dingdans", {
+                        "dingdanbiaoshi": dingdanbiaoshi,
+                        "date": xiugaitime1,
+                        "chuangjiantime": time,
+                        "dingdanowner": req.session.username,
+                        "dingdanzongjia": fields.zongjia,
+                        "dingdanshangpins": JSON.stringify(arraydingdan1),
+                        "dingdanzhuangtai": "1",
+                        "dingdandizhi": dizhijson,
+                        "fahuoshijian": "",
+                        "wuliuhaoma": "",
+                        "wuliuxinxi": "",
+                        "shouhuoshijian": "",
+                        "dingdanxinxixiugaijilu": [""]
+                    }, function (err, result) {
                         if (err) {
                             console.log(err);
-                            db.deleteMany("dingdans", {"dingdanbiaoshi": dingdanbiaoshi}, function (err, result2) {
+                            res.send("-1");
+                            return;
+                        }
+                        console.log("购买订单创建成功");
+                        db.find("user", {"username": req.session.username}, function (err, result1) {
+                            if (err) {
+                                console.log(err);
+                                db.deleteMany("dingdans", {"dingdanbiaoshi": dingdanbiaoshi}, function (err, result2) {
+                                    if (err) {
+                                        console.log(err);
+                                        res.send("-1");
+                                        return;
+                                    }
+                                    res.send("-1");
+                                    return;
+                                })
+                            }
+                            var dingdan = result1[0].dingdan;
+                            console.log("before dingdan.length:"+dingdan.length);
+                            var newdingdan = {
+                                "dingdanbiaoshi": dingdanbiaoshi,
+                                "date": xiugaitime1,
+                                "chuangjiantime": time,
+                                "dingdanzongjia": fields.zongjia,
+                                "dingdanshangpins": JSON.stringify(arraydingdan1),
+                                "dingdanzhuangtai": "1",
+                                "dingdandizhi": dizhijson,
+                                "fahuoshijian": "",
+                                "wuliuhaoma": "",
+                                "wuliuxinxi": "",
+                                "shouhuoshijian": ""
+                            };
+                            dingdan.push(newdingdan);
+                            console.log("after dingdan.length:"+dingdan.length);
+                            db.updateMany("user", {"username": req.session.username}, {$set: {"dingdan": dingdan}}, function (err, result2) {
                                 if (err) {
                                     console.log(err);
                                     res.send("-1");
                                     return;
                                 }
-                                res.send("-1");
-                                return;
+                                res.send("1");
                             })
-
-                        }
-                        var dingdan = result1[0].dingdan;
-                        console.log(dingdan.length);
-                        var newdingdan = {
-                            "dingdanbiaoshi": dingdanbiaoshi,
-                            "date": xiugaitime1,
-                            "chuangjiantime": time,
-                            "dingdanzongjia": fields.zongjia,
-                            "dingdanshangpins": JSON.stringify(arraydingdan1),
-                            "dingdanzhuangtai": "1",
-                            "dingdandizhi": dizhijson,
-                            "fahuoshijian": "",
-                            "wuliuhaoma": "",
-                            "wuliuxinxi": "",
-                            "shouhuoshijian": ""
-                        };
-                        dingdan.push(newdingdan);
-                        console.log(dingdan.length);
-                        db.updateMany("user", {"username": req.session.username}, {$set: {"dingdan": dingdan}}, function (err, result2) {
-                            if (err) {
-                                console.log(err);
-                                res.send("-1");
-                                return;
-                            }
-                            res.send("1");
                         })
-
                     })
-
                 })
-
-
             })
-
-
-        })
-    }
-        else{
+        }else{
             res.send("-1");
         }
     })
-
-
-
-}
+};
 //getdingdanshangpin，getdingdanzongjia和getdingdaninfo三个方法都是对用户刚购买完成
 //后的对应的这个订单的相关信息。对应的页面是dingdanindex.html.
 exports.getdingdanshangpin=function(req,res) {
@@ -1580,23 +1561,24 @@ exports.getdingdaninfo=function(req,res) {
         return;
     }
     db.find("user",{"username":req.session.username},function(err,result){
-        if(err)
-        {
+        if(err) {
             console.log(err);
             res.send("出错了");
             return;
         }
-        var dingdan=result[0].dingdan;
-        var thelatestdingdan=dingdan[dingdan.length-1];
-        var dingdanshangpins=eval(thelatestdingdan.dingdanshangpins);
-        res.json({"dindanhao":thelatestdingdan.dingdanbiaoshi,
-            "chuangjiantime":thelatestdingdan.chuangjiantime,}
+        var dingdan = result[0].dingdan;
+        var thelatestdingdan = dingdan[dingdan.length-1];
+        var dingdanshangpins = eval(thelatestdingdan.dingdanshangpins);
+        res.json({
+                "dingdanbiaoshi":thelatestdingdan.dingdanbiaoshi,
+                "chuangjiantime":thelatestdingdan.chuangjiantime,
+                "dingdanzongjia":thelatestdingdan.dingdanzongjia,
+                "dingdanshangpins":dingdanshangpins,
+                "digndandizhi":thelatestdingdan.digndandizhi
+            }
         );
     })
-}
-
-
-
+};
 
 //getdingdantishixinxi,wodedingdan,getdingdans和dingdanxiangqing都是为
 //展示一个用户的各个订单相关情况的方法。对应的页面是wodedingdan.html.
@@ -1655,32 +1637,22 @@ exports.wodedingdan=function(req,res) {
     if(req.session.login!="1"){
         res.send("非法闯入啦，请登录！");
         return;
-
     }
-
-    db.find("user",{"username":req.session.username},function(err,result)
-    {
-
-    if(err)
-    {
-    console.log(err);
-        return;
-    }
-        var dingdans=result[0].dingdan;
-        for(var i=0;i<dingdans.length;i++)
-        {
-            dingdans[i].dingdanshangpins=eval(dingdans[i].dingdanshangpins);
+    db.find("user",{"username":req.session.username},function(err,result) {
+        if(err) {
+            console.log(err);
+            return;
         }
-          console.log(dingdans);
-            res.json({
-                "dingdan":dingdans
-            })
-
-
-
-
-});
-}
+        var dingdans=result[0].dingdan;
+        for(var i=0;i<dingdans.length;i++) {
+            dingdans[i].dingdanshangpins = eval(dingdans[i].dingdanshangpins);
+        }
+        console.log(dingdans);
+        res.json({
+            "dingdan":dingdans
+        });
+    });
+};
 var duiyingzhuangtaii=["订单","待发货订单","待收货订单","待评价订单","退款订单","待付款订单"];
 //getdingdans和wodedingdan不同之处在于，getdingdans是返回指定状态的那些订单。
 exports.getdingdans=function(req,res) {
@@ -1688,11 +1660,10 @@ exports.getdingdans=function(req,res) {
         res.send("非法闯入啦，请登录！");
         return;
     }
-    console.log("1");
+    console.log("getdingdans");
     if(req.query.type!=undefined&&req.query.type!="") {
         var type = req.query.type;
-
-        console.log(type);
+        console.log("订单状态："+type);
         var dingdanarray = [{"moren": "haha"}];
         db.find("user", {"username": req.session.username}, function (err, result) {
             if (err) {
@@ -1702,58 +1673,35 @@ exports.getdingdans=function(req,res) {
             }
             if (result.length != 0) {
                 var dingdans = result[0].dingdan;
-                if (type == "0") {
-                    for (var i = 1; i < dingdans.length; i++) {
-                        dingdans[i].dingdanshangpins = eval(dingdans[i].dingdanshangpins);
-                    }
-                    if(dingdans.length==1)
-                    {
-                        res.send("没有该类订单");
-                        return;
-                    }
-                    //res.render("wodedingdan",{
-                    //
-                    //    "login":"1",
-                    //    "username":req.session.username,
-                    //    "dingdan":dingdans,
-                    //    "active":duiyingzhuangtaii[0]
-                    //})
-                    var json = {"dingdan": dingdans};
-                    res.json(json);
-
-                }
-                else {
-                    for (var i = 1; i < dingdans.length; i++) {
-                        if (dingdans[i].dingdanzhuangtai == type) {
-                            dingdanarray.push(dingdans[i]);
+                if(dingdans.length == 1) {
+                    res.send("没有订单");
+                    return;
+                }else{
+                    if(type == "1") {
+                        for (var i = 1; i < dingdans.length; i++) {
+                            dingdans[i].dingdanshangpins = eval(dingdans[i].dingdanshangpins);
                         }
+                        res.json({
+                            "dingdan": dingdans
+                        });
+                    }else {
+                        for (var i = 1; i < dingdans.length; i++) {
+                            if (dingdans[i].dingdanzhuangtai == type) {
+                                dingdanarray.push(dingdans[i]);
+                            }
+                        }
+                        for (var i = 1; i < dingdanarray.length; i++) {
+                            dingdanarray[i].dingdanshangpins = eval(dingdans[i].dingdanshangpins);
+                        }
+                        res.json({
+                            "dingdan": dingdanarray
+                        });
                     }
-                    for (var i = 1; i < dingdanarray.length; i++) {
-                        dingdanarray[i].dingdanshangpins = eval(dingdans[i].dingdanshangpins);
-                    }
-                    if (type == "3") {
-                        console.log("满足待收货的订单的数量" + (dingdanarray.length - 1));
-                    }
-                    //res.render("wodedingdan",{
-                    //
-                    //    "login":"1",
-                    //    "username":req.session.username,
-                    //    "dingdan":dingdanarray,
-                    //    "active":duiyingzhuangtaii[parseInt(type)]
-                    //})
-                    if(dingdanarray.length==1)
-                    {
-                        res.send("没有该类订单");
-                        return;
-                    }
-                    var json = {"dingdan": dingdanarray};
-                    res.json(json);
                 }
             }
         })
     }
-
-}
+};
 exports.dingdanxiangqing=function(req,res) {
     if(req.session.login!="1"){
         res.send("非法闯入啦，请登录！");
@@ -2200,9 +2148,8 @@ exports.addshangpin=function(req,res) {
 exports.getshangpins= function(req,res) {
     db.find("shangpin",{"shangpinzhuangtai":"2"},function(err,result)
     {
-         var json={"result":result};
+        var json={"result":result};
         res.json(json);
-
     })
 
 }

@@ -117,6 +117,8 @@ app.get("/getavatar",router.getavatar);
 app.get("/get3dModel",router.get3dModel);
 //前台用户获得模型
 app.get("/getOne3dModel",router.getOne3dModel);
+//前台用户删除购物车
+app.get("/shanchudiy",router.shanchudiy);
 
 //客服订单路由
 app.get("/kefuxiugaidingdanzhuangtai",router.kefuxiugaidingdanzhuangtai);
