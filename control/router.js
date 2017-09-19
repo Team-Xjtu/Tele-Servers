@@ -57,7 +57,6 @@ exports.doshuoshuo = function (req, res, next) {
                 res.send(sysj.toString());
                 return;
             }else{
-
                var temp=result[0].limitfabiao;
                 temp[0]=temp[1];
                 temp[1]=temp[2];
@@ -91,7 +90,6 @@ exports.getinfo=function(req,res){
    console.log(username);
     if(req.session.login!="1")
     {
-
         res.send("-1");
         return;
     }
@@ -1669,7 +1667,6 @@ exports.getdingdans=function(req,res) {
         res.send("非法闯入啦，请登录！");
         return;
     }
-    console.log("getdingdans");
     if(req.query.type!=undefined&&req.query.type!="") {
         var type = req.query.type;
         console.log("订单状态："+type);
@@ -1686,7 +1683,7 @@ exports.getdingdans=function(req,res) {
                     res.send("没有订单");
                     return;
                 }else{
-                    if(type == "1") {
+                    if(type == "0") {
                         for (var i = 1; i < dingdans.length; i++) {
                             dingdans[i].dingdanshangpins = eval(dingdans[i].dingdanshangpins);
                         }
@@ -1696,11 +1693,9 @@ exports.getdingdans=function(req,res) {
                     }else {
                         for (var i = 1; i < dingdans.length; i++) {
                             if (dingdans[i].dingdanzhuangtai == type) {
+                                dingdans[i].dingdanshangpins = eval(dingdans[i].dingdanshangpins);
                                 dingdanarray.push(dingdans[i]);
                             }
-                        }
-                        for (var i = 1; i < dingdanarray.length; i++) {
-                            dingdanarray[i].dingdanshangpins = eval(dingdans[i].dingdanshangpins);
                         }
                         res.json({
                             "dingdan": dingdanarray
@@ -2527,14 +2522,13 @@ exports.kefugetdingdanindex=function(req,res) {
             res.send("-1");
             return;
         }
-        //console.log(result);
-
-        for(var i=0;i<result.length;i++)
-        {
-            result[i].dingdanshangpins=eval(result[i].dingdanshangpins);
+        for(var i=0;i<result.length;i++) {
+            result[i].dingdanshangpins = eval(result[i].dingdanshangpins);
         }
-        res.render("kefudingdanindex", {"dingdan": result,"active":"1"});
-
+        res.render("kefudingdanindex", {
+            "dingdan": result,
+            "active":"1"
+        });
     })
 }
 exports.kefugetonetypedingdans=function(req,res) {
@@ -2703,39 +2697,26 @@ exports.kefuxiugaidingdanzhuangtai=function(req,res) {
 
 }
 exports.fahuoindex=function(req,res) {
-
-
-      if(req.query)
-      {
-
-          if(true)
-          {
-
-              var dingdanbiaoshi=req.query.dingdanbiaoshi;
-              console.log(dingdanbiaoshi);
-              db.find("dingdans",{"dingdanbiaoshi":dingdanbiaoshi},function(err,result){
-                  if(err)
-                  {
-                      console.log(err);
-                      res.send("-1");
-                      return;
-                  }
-                  if(result.length>0) {
-                      console.log(result[0]);
-                      result[0].dingdanshangpins = eval(result[0].dingdanshangpins);
-                      res.render("fahuoindex",{
-                          "dingdan":result[0]
-                      })
-                  }
-                  else
-                  {
-                      res.send("-1");
-                  }
-
-              })
-          }
+      if(req.query) {
+          var dingdanbiaoshi = req.query.dingdanbiaoshi;
+          db.find("dingdans",{"dingdanbiaoshi":dingdanbiaoshi},function(err,result){
+              if(err) {
+                  console.log(err);
+                  res.send("-1");
+                  return;
+              }
+              if(result.length>0) {
+                  result[0].dingdanshangpins = eval(result[0].dingdanshangpins);
+                  res.render("fahuoindex",{
+                      "dingdan":result[0]
+                  })
+              }
+              else {
+                  res.send("-1");
+              }
+          })
       }
-}
+};
 exports.fahuo=function(req,res) {
     if(req.query!=undefined)
     {
@@ -2745,7 +2726,6 @@ exports.fahuo=function(req,res) {
             var dingdanbiaoshi = req.query.dingdanbiaoshi;
             var username=req.query.username;
                 if(username!="") {
-
                     var xiugaitime1=new Date();
                     var fahuoshijian=xiugaitime1.getFullYear()+"年"+(xiugaitime1.getMonth()+1)+"月"+xiugaitime1.getDate()+"日"+xiugaitime1.getHours()+"时"+xiugaitime1.getMinutes()+"分"+xiugaitime1.getSeconds()+"秒";
                     db.updateMany("dingdans", {"dingdanbiaoshi": dingdanbiaoshi}, {$set: {"dingdanzhuangtai": "2","wuliuhaoma":wuliuhaoma,"fahuoshijian":fahuoshijian}}, function (err, result1) {
@@ -2754,14 +2734,11 @@ exports.fahuo=function(req,res) {
                             res.send("-1");
                             return;
                         }
-
                         db.find("user", {"username": username}, function (err, result) {
                             if (err) {
                                 console.log(err);
-
                                 db.updateMany("dingdans", {"dingdanbiaoshi": dingdanbiaoshi}, {$set: {"dingdanzhuangtai":"1","wuliuhaoma":"","fahuoshijian":""}}, function (err, result2) {
-                                    if(err)
-                                    {
+                                    if(err) {
                                         console.log(err);
                                         res.send("-1");
                                         return;
@@ -2774,10 +2751,8 @@ exports.fahuo=function(req,res) {
                                 if (result.length != 0) {
                                     var dingdan = result[0].dingdan;
                                     var index=-1;
-                                    for(var j=0;j<dingdan.length;j++)
-                                    {
-                                        if(dingdan[j].dingdanbiaoshi==dingdanbiaoshi)
-                                        {
+                                    for(var j=0;j<dingdan.length;j++) {
+                                        if(dingdan[j].dingdanbiaoshi==dingdanbiaoshi) {
                                             index=j;
                                             break;
                                         }
@@ -2789,8 +2764,7 @@ exports.fahuo=function(req,res) {
                                         if (err) {
                                             console.log(err);
                                             db.updateMany("dingdans", {"dingdanbiaoshi": dingdanbiaoshi}, {$set: {"dingdanzhuangtai": "1","wuliuhaoma":"","fahuoshijian":""}}, function (err, result) {
-                                                if(err)
-                                                {
+                                                if(err) {
                                                     console.log(err);
                                                     res.send("-1");
                                                     return;
@@ -2801,45 +2775,30 @@ exports.fahuo=function(req,res) {
                                         }
                                         res.send("1");
                                     })
-
-                                }
-                                else {
+                                }else {
                                     res.send("-1");
                                 }
-                            }
-                            else {
+                            }else {
                                 res.send("-1");
                             }
-
                         })
-
-
                     })
-                }
-
-
-
-            else {
+                }else {
                 res.send("-1");
             }
-
-
-        }
-        else {
+        }else {
             res.send("-1");
         }
-
-    }
-    else {
+    }else {
         res.send("-1");
     }
-}
+};
 exports.kefudingdanxiangqing=function(req,res) {
     if(req.query!=undefined)
     {
         if (req.query.dingdanbiaoshi != undefined && req.query.dingdanbiaoshi != "")
         {
-             var dingdanbiaoshi=req.query.dingdanbiaoshi;
+            var dingdanbiaoshi=req.query.dingdanbiaoshi;
             db.find("dingdans",{"dingdanbiaoshi":dingdanbiaoshi},function(err,result){
                 if(err)
                 {
@@ -2851,6 +2810,7 @@ exports.kefudingdanxiangqing=function(req,res) {
                 {
                     if(result.length!=0)
                     {
+                        console.log(result);
                         result[0].dingdanshangpins = eval(result[0].dingdanshangpins);
                         res.render("kefudingdanxiangqing",{
                             "dingdan":result[0]

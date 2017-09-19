@@ -81,18 +81,14 @@
 <div style="margin-top:50px;display: none;" align="center" class="alert alert-success"id="chenggong" role="alert">保存成功</div>
 </body>
 <script>
-    function fahuoindex(a)
-    {
-
+    function fahuoindex(a) {
         window.location.href="/fahuoindex?dingdanbiaoshi="+a;
     }
     var limitrepeatsubmit=0;
     var limitrepeatsubmit1=0;
     function change(a,b,c,d,e)
     {
-        if(limitrepeatsubmit==0)
-        {
-
+        if(limitrepeatsubmit==0) {
             limitrepeatsubmit = 1;
             $.ajax({
                 type: "get",
