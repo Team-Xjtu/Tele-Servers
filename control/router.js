@@ -86,10 +86,9 @@ exports.doshuoshuo = function (req, res, next) {
     });
 }
 exports.getinfo=function(req,res){
-    var username=req.query.username;
-   console.log(username);
-    if(req.session.login!="1")
-    {
+    var username = req.query.username;
+    console.log("getinfo username:"+username);
+    if(req.session.login!="1") {
         res.send("-1");
         return;
     }
@@ -476,12 +475,9 @@ exports.getallshuoshuo = function(req,res,next) {
     }
     //这个页面接收一个参数，页面
     if (req.session.login =="1") {
-
-    var page =parseInt(req.query.page);
+        var page =parseInt(req.query.page);
         var huati=req.query.huati;
         //console.log(page+"hahaahhhahahaahah");
-
-
             db.find("shuoshuo", {"huati":huati}, {"pageamount":10,"page":page,"sort":{"date":-1}}, function (err, result) {
                 for(var i=0;i<result.length;i++){
                     for(var j=0;j<result[i].zan.length;j++){
@@ -490,29 +486,24 @@ exports.getallshuoshuo = function(req,res,next) {
                         }else{
                             result[i].yanse="";
                         }
-
                     }
                 }
                 res.json(result);
             });
-        }
-else{
+        }else{
      res.send("-1");
-}
-    };
+    }
+};
 exports.getallshuoshuo1 = function(req,res,next) {
     if(req.session.login!="1"){
         res.send("非法闯入啦，请登录！");
         return;
     }
-
     //这个页面接收一个参数，页面
     if (req.session.login =="1") {
-
         var page =parseInt(req.query.page);
         //console.log(page+"hahaahhhahahaahah");
         var  username=req.query.username;
-
         db.find("shuoshuo", {"username":username}, {"pageamount":10,"page":page,"sort":{"date":-1}}, function (err, result) {
             for(var i=0;i<result.length;i++){
                 for(var j=2;j<result[i].zan.length;j++){
@@ -521,7 +512,6 @@ exports.getallshuoshuo1 = function(req,res,next) {
                     }else{
                         result[i].yanse="";
                     }
-
                 }
             }
             res.json(result);
@@ -559,19 +549,18 @@ exports.getallshuoshuo1 = function(req,res,next) {
     };
 exports.getshuoshuoamount=function(req,res){
     if(req.session.login!="1"){
-        res.send("非法闯入啦，请登录！");
+        res.send("-1");
         return;
     }
     if (req.session.login =="1") {
-        var huati=req.query.huati;
+        var huati = req.query.huati;
         db.getAllCount("shuoshuo",{"huati":huati}, function (count) {
-
             res.send(count.toString());
         });
     }else{
         res.send("-1");
     }
-}
+};
 exports.getshuoshuoamount1=function(req,res){
     if(req.session.login!="1"){
         res.send("非法闯入啦，请登录！");
@@ -580,13 +569,12 @@ exports.getshuoshuoamount1=function(req,res){
     var username=req.query.username;
     if (req.session.login =="1") {
         db.getAllCount("shuoshuo",{"username":username},function (count) {
-
             res.send(count.toString());
         });
     }else{
         res.send("-1");
     }
-}
+};
 exports.shanchushuoshuo=function(req,res){
     if(req.session.login!="1"){
         res.send("非法闯入啦，请登录！");
@@ -1256,6 +1244,45 @@ exports.shanchudiy=function(req,res){
         })
     })
 };
+exports.deleteOrder=function(req,res){
+    var dingdanbiaoshi = req.query.dingdanbiaoshi;
+    if(req.session.login!="1"){
+        res.send("非法闯入啦，请登录！");
+        return;
+    }
+    db.find("user",{"username":req.session.username},function(err,result){
+        if(err) {
+            console.log(err);
+            res.send("-1");
+            return;
+        }
+        if(result.length > 0) {
+            var dingdan = result[0].dingdan;
+            for (var i = 1; i < dingdan.length; i++) {
+                if(dingdan[i].dingdanbiaoshi == dingdanbiaoshi){
+                    dingdan.splice(i,1);
+                }
+            }
+            db.updateMany("user",{"username":req.session.username},{$set:{"dingdan":dingdan}},function(err1,result1){
+                if(err1){
+                    console.log(err1);
+                    res.send("-1");
+                    return;
+                }
+                db.deleteMany("dingdans", {"dingdanbiaoshi": dingdanbiaoshi}, function (err, result2) {
+                    if (err) {
+                        console.log(err);
+                        res.send("-1");
+                        return;
+                    }
+                    res.send("1");
+                });
+            });
+        }else{
+            res.send("-1");
+        }
+    })
+};
 exports.getgouwuche=function(req,res){
     if(req.session.login!="1"){
         res.send("非法闯入啦，请登录！");
@@ -1680,7 +1707,7 @@ exports.getdingdans=function(req,res) {
             if (result.length != 0) {
                 var dingdans = result[0].dingdan;
                 if(dingdans.length == 1) {
-                    res.send("没有订单");
+                    res.send("-1");
                     return;
                 }else{
                     if(type == "0") {
@@ -1697,9 +1724,14 @@ exports.getdingdans=function(req,res) {
                                 dingdanarray.push(dingdans[i]);
                             }
                         }
-                        res.json({
-                            "dingdan": dingdanarray
-                        });
+                        if(dingdanarray.length == 1) {
+                            res.send("-1");
+                            return;
+                        }else{
+                            res.json({
+                                "dingdan": dingdanarray
+                            });
+                        }
                     }
                 }
             }

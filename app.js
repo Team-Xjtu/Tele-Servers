@@ -119,6 +119,8 @@ app.get("/get3dModel",router.get3dModel);
 app.get("/getOne3dModel",router.getOne3dModel);
 //前台用户删除购物车
 app.get("/shanchudiy",router.shanchudiy);
+//前台用户删除订单
+app.get("/deleteOrder",router.deleteOrder);
 
 //客服订单路由
 app.get("/kefuxiugaidingdanzhuangtai",router.kefuxiugaidingdanzhuangtai);
