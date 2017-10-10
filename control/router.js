@@ -537,11 +537,11 @@ exports.getallshuoshuo1 = function(req,res,next) {
                 res.json("");
                 return;
             }
-
             var obj = {
                 "username" : result[0].username,
                 "avatar" : result[0].avatar,
                 "_id" : result[0]._id,
+                "dizhi":result[0].dizhi
             };
             console.log(obj.username);
             res.json(obj);
