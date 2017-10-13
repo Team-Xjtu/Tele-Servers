@@ -104,8 +104,8 @@
         loader.load(fileUrl, function (geometry, material) {
             document.querySelector("#materialCount").innerHTML = material.length + " 个";
             var mats = [];
-            for(var i = 0; i < material.length; i++){
-                if(i !== (material.length-1)){
+            for(var i = 1; i < material.length; i++){
+                if(i !== material.length){
                     var texture = THREE.ImageUtils.loadTexture(imageUrl[i]);
                     var side = new THREE.MeshPhongMaterial();
                     side.map = texture;
